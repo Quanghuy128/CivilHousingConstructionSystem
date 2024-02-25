@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using FAB.Domain.Common;
+using CHC.Domain.Common;
 
-namespace FAB.API.Configurations
+namespace CHC.Presentation.Configuration
 {
     public static class ConfigureAppSettings
     {

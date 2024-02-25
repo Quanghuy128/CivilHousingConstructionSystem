@@ -1,5 +1,4 @@
 using CHC.Presentation.Configuration;
-using FAB.API.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 

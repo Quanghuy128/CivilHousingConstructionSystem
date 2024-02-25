@@ -1,4 +1,4 @@
-﻿namespace FAB.Domain.Common
+﻿namespace CHC.Domain.Common
 {
     public class AppConfig
     {
