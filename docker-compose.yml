@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  chc.presentation:
+    image: ${DOCKER_REGISTRY-}chcpresentation
+    build:
+      context: .
+      dockerfile: CHC.Presentation/Dockerfile

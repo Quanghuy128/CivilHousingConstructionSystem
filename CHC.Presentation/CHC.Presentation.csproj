@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -6,10 +6,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>d6c44541-8a1d-4aea-9da6-778f0bbbbbda</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CHC.Application\CHC.Application.csproj" />
+    <ProjectReference Include="..\CHC.Domain\CHC.Domain.csproj" />
+    <ProjectReference Include="..\CHC.Infrastructure\CHC.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
