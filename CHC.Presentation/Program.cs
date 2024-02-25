@@ -1,7 +1,17 @@
+using CHC.Presentation.Configuration;
+using FAB.API.Configurations;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Config builder
+builder.ConfigureAutofacContainer();
+
+// Add Configuration
+builder.Configuration.SettingsBinding();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext();
 
 var app = builder.Build();
 
