@@ -1,5 +1,6 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 using Autofac;
+using CHC.Presentation.Configuration;
 
 namespace CHC.Presentation.Configuration
 {
