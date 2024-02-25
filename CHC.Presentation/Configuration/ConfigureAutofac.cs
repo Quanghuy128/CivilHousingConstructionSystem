@@ -2,7 +2,7 @@
 using Autofac;
 using CHC.Presentation.Configuration;
 
-namespace FAB.API.Configurations
+namespace CHC.Presentation.Configuration
 {
     public static class ConfigureAutofac
     {
