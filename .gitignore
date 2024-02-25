@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Docker Container
+postgres-chc/
+
 # User-specific files
 *.rsuser
 *.suo

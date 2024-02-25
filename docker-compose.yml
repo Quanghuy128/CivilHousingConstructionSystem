@@ -6,3 +6,17 @@ services:
     build:
       context: .
       dockerfile: CHC.Presentation/Dockerfile
+  
+  postgres-service:
+    container_name: postgres-chc
+    image: postgres
+    environment:
+      POSTGRES_DB: chc
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-root}
+      PGDATA: /data/postgres
+    volumes:
+      - ./postgres-chc:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
