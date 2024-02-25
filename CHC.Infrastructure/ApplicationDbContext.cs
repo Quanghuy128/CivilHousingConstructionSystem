@@ -4,6 +4,14 @@ namespace CHC.Infrastructure
 {
     public class ApplicationDbContext : DbContext
     {
+        public ApplicationDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
+        protected ApplicationDbContext()
+        {
+        }
+
         public override int SaveChanges()
         {
             return base.SaveChanges();
