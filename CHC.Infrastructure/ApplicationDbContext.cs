@@ -17,6 +17,7 @@ namespace CHC.Infrastructure
 
         #region DbSet
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
         #endregion DbSet
 
         public override int SaveChanges()
@@ -39,6 +40,8 @@ namespace CHC.Infrastructure
             modelBuilder.HasDefaultSchema("chc");
 
             modelBuilder.Entity<Account>();
+
+            modelBuilder.Entity<Supplier>();
         }
     }
 }

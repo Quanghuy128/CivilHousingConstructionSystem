@@ -1,12 +1,6 @@
 version: '3.4'
 
 services:
-  chc.presentation:
-    image: ${DOCKER_REGISTRY-}chcpresentation
-    build:
-      context: .
-      dockerfile: CHC.Presentation/Dockerfile
-  
   postgres-service:
     container_name: postgres-chc
     image: postgres
@@ -20,3 +14,13 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
+
+  chc.presentation:
+    image: ${DOCKER_REGISTRY-}chcpresentation
+    depends_on: 
+        - postgres-service
+    build:
+      context: .
+      dockerfile: CHC.Presentation/Dockerfile
+  
+  

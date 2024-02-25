@@ -5,6 +5,7 @@ using CHC.Domain.Enums;
 
 namespace CHC.Domain.Entities
 {
+    [Table("account")]
     public class Account : BaseEntity
     {
         [Column("username")]
