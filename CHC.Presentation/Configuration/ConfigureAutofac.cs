@@ -1,6 +1,7 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 using Autofac;
-using CHC.Presentation.Configuration;
+using CHC.Infrastructure;
+using CHC.Application;
 
 namespace CHC.Presentation.Configuration
 {
@@ -20,6 +21,9 @@ namespace CHC.Presentation.Configuration
         protected override void Load(ContainerBuilder builder)
         {
             builder.AddDbContext();
+            builder.RegisterRepository();
+            builder.RegisterServices();
+            builder.RegisterMapster();
             base.Load(builder);
         }
     }
