@@ -1,6 +1,10 @@
 using CHC.Presentation.Configuration;
+using CHC.Presentation.SeedData;
 
 var builder = WebApplication.CreateBuilder(args);
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
 
 // Config builder
 builder.ConfigureAutofacContainer();
@@ -11,6 +15,9 @@ builder.Configuration.SettingsBinding();
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext();
+
+//Seed Data
+builder.Services.SeedData().GetAwaiter().GetResult();
 
 var app = builder.Build();
 
