@@ -18,6 +18,10 @@ namespace CHC.Infrastructure
         #region DbSet
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<TransactionDetail> TransactionDetails { get; set; }
         #endregion DbSet
 
         public override int SaveChanges()
@@ -38,6 +42,8 @@ namespace CHC.Infrastructure
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
             modelBuilder.HasDefaultSchema("chc");
+
+            #region Entity Relation
 
             modelBuilder.Entity<Account>()
                 .HasMany(p => p.OwnedMaterials)
@@ -77,6 +83,8 @@ namespace CHC.Infrastructure
                 .HasMany(p => p.Materials)
                 .WithMany(d => d.TransactionDetails)
                 .UsingEntity(j => j.ToTable("transactiondetail_material"));
+
+            #endregion
         }
     }
 }
