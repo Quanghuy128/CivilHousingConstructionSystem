@@ -1,3 +1,5 @@
+using CHC.Application.Service;
+using CHC.Infrastructure.Service;
 using CHC.Presentation.Configuration;
 using CHC.Presentation.SeedData;
 

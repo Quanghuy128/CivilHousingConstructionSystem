@@ -13,13 +13,7 @@ namespace CHC.Application
 {
     public static class Registration
     {
-        public static void RegisterServices(this ContainerBuilder builder)
-        {
-            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .Where(t => t.Name.EndsWith("Service"))
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-        }
+        
 
         public static void RegisterMapster(this ContainerBuilder builder)
         {

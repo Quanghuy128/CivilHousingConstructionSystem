@@ -1,4 +1,4 @@
-﻿namespace CHC.Application.IService
+﻿namespace CHC.Application.Repository
 {
     public interface IGenericRepositoryFactory
     {

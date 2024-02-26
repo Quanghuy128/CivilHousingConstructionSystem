@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
-namespace CHC.Application.IService
+namespace CHC.Application.Repository
 {
     public interface IGenericRepository<T> : IDisposable where T : class
     {

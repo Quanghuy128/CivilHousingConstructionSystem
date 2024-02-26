@@ -1,4 +1,4 @@
-﻿using CHC.Application.IService;
+﻿using CHC.Application.Repository;
 using CHC.Domain.Pagination;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;

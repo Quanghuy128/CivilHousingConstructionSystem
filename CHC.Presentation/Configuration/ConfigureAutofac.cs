@@ -22,6 +22,7 @@ namespace CHC.Presentation.Configuration
         {
             builder.AddDbContext();
             builder.RegisterRepository();
+            builder.RegisterServices();
             builder.RegisterMapster();
             base.Load(builder);
         }

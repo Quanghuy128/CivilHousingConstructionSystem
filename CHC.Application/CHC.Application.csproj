@@ -19,8 +19,4 @@
     <ProjectReference Include="..\CHC.Domain\CHC.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Service\" />
-  </ItemGroup>
-
 </Project>

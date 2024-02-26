@@ -1,4 +1,4 @@
-﻿using CHC.Application.IService;
+﻿using CHC.Application.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
