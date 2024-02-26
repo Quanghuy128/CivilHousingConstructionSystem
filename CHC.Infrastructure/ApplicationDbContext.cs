@@ -39,9 +39,44 @@ namespace CHC.Infrastructure
 
             modelBuilder.HasDefaultSchema("chc");
 
-            modelBuilder.Entity<Account>();
+            modelBuilder.Entity<Account>()
+                .HasMany(p => p.OwnedMaterials)
+                .WithMany(d => d.OwnerAccounts)
+                .UsingEntity(j => j.ToTable("owner_material"));
 
-            modelBuilder.Entity<Supplier>();
+            modelBuilder.Entity<Material>()
+                .HasOne(p => p.Category)
+                .WithMany(d => d.Materials)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Material>()
+                .HasOne(p => p.Supplier)
+                .WithMany(d => d.ProvidedMaterials)
+                .HasForeignKey(p => p.SupplierId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Material>()
+                .HasOne(p => p.SellerAccount)
+                .WithMany(d => d.SellMaterials)
+                .HasForeignKey(p => p.SellerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(p => p.Customer)
+                .WithMany(d => d.Transactions)
+                .HasForeignKey(p => p.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<TransactionDetail>()
+                .HasOne(p => p.Transaction)
+                .WithOne(d => d.TransactionDetail)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<TransactionDetail>()
+                .HasMany(p => p.Materials)
+                .WithMany(d => d.TransactionDetails)
+                .UsingEntity(j => j.ToTable("transactiondetail_material"));
         }
     }
 }

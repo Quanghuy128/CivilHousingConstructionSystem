@@ -1,5 +1,4 @@
-﻿
-using CHC.Domain.Common;
+﻿using CHC.Domain.Common;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,5 +14,7 @@ namespace CHC.Domain.Entities
 
         [Column("founded_year")]
         public int FoundedYear { get; set; } = 0;
+
+        public virtual ICollection<Material> ProvidedMaterials { get; set; } = new List<Material>();
     }
 }
