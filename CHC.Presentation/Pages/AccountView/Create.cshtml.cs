@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CHC.Domain.Entities;
 using CHC.Infrastructure;
+using CHC.Application.Service;
+using CHC.Domain.Dtos.Account;
+using CHC.Infrastructure.Service;
 
 namespace CHC.Presentation.Pages.AccountView
 {
     public class CreateModel : PageModel
     {
-        private readonly CHC.Infrastructure.ApplicationDbContext _context;
+        private readonly IAccountService _accountService;
 
-        public CreateModel(CHC.Infrastructure.ApplicationDbContext context)
+        public CreateModel(IAccountService accountService)
         {
-            _context = context;
+            _accountService = accountService;
         }
 
         public IActionResult OnGet()
@@ -25,7 +28,7 @@ namespace CHC.Presentation.Pages.AccountView
         }
 
         [BindProperty]
-        public Account Account { get; set; } = default!;
+        public CreateAccountRequest Account { get; set; } = default!;
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -35,8 +38,7 @@ namespace CHC.Presentation.Pages.AccountView
                 return Page();
             }
 
-            _context.Accounts.Add(Account);
-            await _context.SaveChangesAsync();
+            AccountDto result = await _accountService.Create(Account);
 
             return RedirectToPage("./Index");
         }

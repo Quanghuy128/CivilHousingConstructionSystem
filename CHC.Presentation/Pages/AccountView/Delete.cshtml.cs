@@ -7,29 +7,31 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CHC.Domain.Entities;
 using CHC.Infrastructure;
+using CHC.Application.Service;
+using CHC.Domain.Dtos.Account;
 
 namespace CHC.Presentation.Pages.AccountView
 {
     public class DeleteModel : PageModel
     {
-        private readonly CHC.Infrastructure.ApplicationDbContext _context;
+        private readonly IAccountService _accountService;
 
-        public DeleteModel(CHC.Infrastructure.ApplicationDbContext context)
+        public DeleteModel(IAccountService accountService)
         {
-            _context = context;
+            _accountService = accountService;
         }
 
         [BindProperty]
-        public Account Account { get; set; } = default!;
+        public AccountDto Account { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(Guid? id)
+        public async Task<IActionResult> OnGetAsync(Guid id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var account = await _context.Accounts.FirstOrDefaultAsync(m => m.Id == id);
+            AccountDto account = await _accountService.Get(id);
 
             if (account == null)
             {
@@ -42,21 +44,14 @@ namespace CHC.Presentation.Pages.AccountView
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(Guid? id)
+        public async Task<IActionResult> OnPostAsync(Guid id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var account = await _context.Accounts.FindAsync(id);
-            if (account != null)
-            {
-                Account = account;
-                _context.Accounts.Remove(Account);
-                await _context.SaveChangesAsync();
-            }
-
+            bool result = await _accountService.Delete(id);
             return RedirectToPage("./Index");
         }
     }
