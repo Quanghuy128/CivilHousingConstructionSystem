@@ -16,7 +16,6 @@ namespace CHC.Presentation.SeedData
             using var scope = services.BuildServiceProvider().CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             await context.Database.MigrateAsync();
-            if (context.Accounts != null) { return; }
             List<Account> Accounts = new List<Account>(new Account[]
             {
                 new Account
