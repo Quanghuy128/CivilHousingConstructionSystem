@@ -8,7 +8,7 @@ namespace CHC.Presentation.SeedData
     {
         public static async Task SeedData(this IServiceCollection services)
         {
-            await services.SeedAccountData();
+            //await services.SeedAccountData();
         }
 
         private static async Task SeedAccountData(this IServiceCollection services)
