@@ -3,6 +3,7 @@ using CHC.Application.Service;
 using CHC.Domain.Dtos.Account;
 using CHC.Domain.Entities;
 using MapsterMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
@@ -11,7 +12,7 @@ namespace CHC.Infrastructure.Service
 {
     public class AccountService : BaseService<AccountService>, IAccountService
     {
-        public AccountService(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger<AccountService> logger, IMapper mapper) : base(unitOfWork, logger, mapper)
+        public AccountService(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger<AccountService> logger, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(unitOfWork, logger, mapper, httpContextAccessor)
         {
         }
 

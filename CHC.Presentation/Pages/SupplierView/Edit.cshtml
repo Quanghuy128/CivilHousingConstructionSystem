@@ -1,0 +1,65 @@
+﻿@page
+@model CHC.Presentation.Pages.SupplierView.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Supplier</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Supplier.Name" class="control-label"></label>
+                <input asp-for="Supplier.Name" class="form-control" />
+                <span asp-validation-for="Supplier.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Supplier.FoundedYear" class="control-label"></label>
+                <input asp-for="Supplier.FoundedYear" class="form-control" />
+                <span asp-validation-for="Supplier.FoundedYear" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Supplier.Id" />
+            <div class="form-group">
+                <label asp-for="Supplier.CreatedAt" class="control-label"></label>
+                <input asp-for="Supplier.CreatedAt" class="form-control" />
+                <span asp-validation-for="Supplier.CreatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Supplier.UpdatedAt" class="control-label"></label>
+                <input asp-for="Supplier.UpdatedAt" class="form-control" />
+                <span asp-validation-for="Supplier.UpdatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Supplier.CreatedBy" class="control-label"></label>
+                <input asp-for="Supplier.CreatedBy" class="form-control" />
+                <span asp-validation-for="Supplier.CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Supplier.UpdatedBy" class="control-label"></label>
+                <input asp-for="Supplier.UpdatedBy" class="form-control" />
+                <span asp-validation-for="Supplier.UpdatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Supplier.IsDeleted" /> @Html.DisplayNameFor(model => model.Supplier.IsDeleted)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
