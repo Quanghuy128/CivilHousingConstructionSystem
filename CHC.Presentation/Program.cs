@@ -1,5 +1,4 @@
-using CHC.Application.Service;
-using CHC.Infrastructure.Service;
+using Autofac.Core;
 using CHC.Presentation.Configuration;
 using CHC.Presentation.SeedData;
 
@@ -16,6 +15,13 @@ builder.Configuration.SettingsBinding();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 builder.Services.AddDbContext();
 
 //Seed Data
@@ -37,6 +43,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapRazorPages();
 
