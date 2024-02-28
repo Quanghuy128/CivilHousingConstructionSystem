@@ -14,7 +14,15 @@ builder.ConfigureAutofacContainer();
 builder.Configuration.SettingsBinding();
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
+{
+    options.Conventions.AddPageRoute("/Main/HomePage", "/homepage");
+}); ;
+builder.Services.AddMvc().AddRazorPagesOptions(opt =>
+{
+    opt.Conventions.AddPageRoute("/Main/Login", "/login");
+    opt.Conventions.AddPageRoute("/Main/HomePage", "/homepage");
+});
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(options =>
 {
