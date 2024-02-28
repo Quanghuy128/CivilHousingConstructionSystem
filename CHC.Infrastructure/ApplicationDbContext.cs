@@ -32,7 +32,7 @@ namespace CHC.Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                .UseNpgsql("server=localhost;port=5432;database=chc;uid=postgres;password=root;TrustServerCertificate=True");
+                .UseNpgsql("server=db-postgresql-sgp1-25425-do-user-15933004-0.c.db.ondigitalocean.com;port=25060;database=defaultdb;uid=doadmin;password=AVNS_gji6s3Aop8tNMQ0jabg;TrustServerCertificate=True;SslMode=Require;Pooling=false;");
             base.OnConfiguring(optionsBuilder);
         }
 

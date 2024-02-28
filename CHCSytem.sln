@@ -5,11 +5,11 @@ VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHC.Presentation", "CHC.Presentation\CHC.Presentation.csproj", "{1822435F-B907-424D-A266-E08DB333D601}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CHC.Domain", "CHC.Domain\CHC.Domain.csproj", "{B78D243B-51F1-4AFC-9B1E-98BC3B4EEA7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHC.Domain", "CHC.Domain\CHC.Domain.csproj", "{B78D243B-51F1-4AFC-9B1E-98BC3B4EEA7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CHC.Infrastructure", "CHC.Infrastructure\CHC.Infrastructure.csproj", "{7B594302-6AEF-423B-98F2-CE5D6E206BC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHC.Infrastructure", "CHC.Infrastructure\CHC.Infrastructure.csproj", "{7B594302-6AEF-423B-98F2-CE5D6E206BC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CHC.Application", "CHC.Application\CHC.Application.csproj", "{0491FCD3-2E84-4E89-8D5E-394D294BACDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHC.Application", "CHC.Application\CHC.Application.csproj", "{0491FCD3-2E84-4E89-8D5E-394D294BACDA}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A7FB1E09-B1F9-4FF0-9CEB-A6E6F015258E}"
 EndProject

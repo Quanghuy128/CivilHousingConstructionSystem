@@ -8,7 +8,7 @@ namespace CHC.Presentation.SeedData
     {
         public static async Task SeedData(this IServiceCollection services)
         {
-            //await services.SeedAccountData();
+            await services.SeedAccountData();
         }
 
         private static async Task SeedAccountData(this IServiceCollection services)
@@ -16,6 +16,8 @@ namespace CHC.Presentation.SeedData
             using var scope = services.BuildServiceProvider().CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             await context.Database.MigrateAsync();
+            if (context.Accounts.Any()) return;
+
             List<Account> Accounts = new List<Account>(new Account[]
             {
                 new Account
