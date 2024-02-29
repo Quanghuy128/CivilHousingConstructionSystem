@@ -17,11 +17,12 @@ namespace CHC.Infrastructure
 
         #region DbSet
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Material> Materials { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<TransactionDetail> TransactionDetails { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Interior> Interiors { get; set; }
+        public DbSet<InteriorDetail> InteriorDetails { get; set; }
+        public DbSet<Quotation> Quotations { get; set; }
         #endregion DbSet
 
         public override int SaveChanges()
@@ -46,43 +47,38 @@ namespace CHC.Infrastructure
             #region Entity Relation
 
             modelBuilder.Entity<Account>()
-                .HasMany(p => p.OwnedMaterials)
-                .WithMany(d => d.OwnerAccounts)
-                .UsingEntity(j => j.ToTable("owner_material"));
-
-            modelBuilder.Entity<Material>()
-                .HasOne(p => p.Category)
-                .WithMany(d => d.Materials)
-                .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Material>()
-                .HasOne(p => p.Supplier)
-                .WithMany(d => d.ProvidedMaterials)
-                .HasForeignKey(p => p.SupplierId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Material>()
-                .HasOne(p => p.SellerAccount)
-                .WithMany(d => d.SellMaterials)
-                .HasForeignKey(p => p.SellerId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Transaction>()
-                .HasOne(p => p.Customer)
-                .WithMany(d => d.Transactions)
+                .HasMany(p => p.Contracts)
+                .WithOne(d => d.Customer)
                 .HasForeignKey(p => p.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<TransactionDetail>()
-                .HasOne(p => p.Transaction)
-                .WithOne(d => d.TransactionDetail)
+            modelBuilder.Entity<Account>()
+                .HasMany(p => p.Feedbacks)
+                .WithOne(d => d.Customer)
+                .HasForeignKey(p => p.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<TransactionDetail>()
-                .HasMany(p => p.Materials)
-                .WithMany(d => d.TransactionDetails)
-                .UsingEntity(j => j.ToTable("transactiondetail_material"));
+            modelBuilder.Entity<Account>()
+                .HasMany(p => p.Quotations)
+                .WithOne(d => d.Customer)
+                .HasForeignKey(p => p.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Quotation>()
+                .HasMany(p => p.Interiors)
+                .WithMany(d => d.Quotations)
+                .UsingEntity(j => j.ToTable("quotation_detail"));
+
+            modelBuilder.Entity<InteriorDetail>()
+                .HasOne(p => p.Material)
+                .WithMany(d => d.InteriorDetails)
+                .HasForeignKey(p => p.MaterialId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<InteriorDetail>()
+                .HasOne(p => p.Interior)
+                .WithOne(d => d.InteriorDetail)
+                .OnDelete(DeleteBehavior.Cascade);
 
             #endregion
         }
