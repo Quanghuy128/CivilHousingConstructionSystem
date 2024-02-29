@@ -32,21 +32,25 @@ namespace CHC.Domain.Entities
         [StringLength(500)]
         public string Address {  get; set; } = string.Empty;
 
-        [Column("role")]
-        [EnumDataType(typeof(RoleType))]
-        public RoleType Role { get; set; } = RoleType.Customer;
+        [Column("image_url")]
+        [StringLength(500)]
+        public string ImageUrl { get; set; } = string.Empty;
 
         [Column("status")]
         [EnumDataType(typeof(AccountStatus))]
         public AccountStatus Status { get; set; } = AccountStatus.Active;
 
-        [InverseProperty("OwnerAccounts")]
-        public virtual ICollection<Material> OwnedMaterials { get; set; } = new List<Material>();
-
-        [InverseProperty("SellerAccount")]
-        public virtual ICollection<Material> SellMaterials { get; set; } = new List<Material>();
+        [Column("role")]
+        [EnumDataType(typeof(RoleType))]
+        public RoleType Role { get; set; } = RoleType.Customer;
 
         [InverseProperty("Customer")]
-        public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+        public virtual ICollection<Contract> Contracts { get; set; } = new List<Contract>();
+
+        [InverseProperty("Customer")]
+        public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+
+        [InverseProperty("Customer")]
+        public virtual ICollection<Quotation> Quotations { get; set; } = new List<Quotation>();
     }
 }

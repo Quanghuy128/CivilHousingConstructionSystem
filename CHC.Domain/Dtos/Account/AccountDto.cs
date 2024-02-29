@@ -16,8 +16,8 @@ namespace CHC.Domain.Dtos.Account
         public string Address { get; set; } = string.Empty;
         public RoleType Role { get; set; } = RoleType.Customer;
         public AccountStatus Status { get; set; } = AccountStatus.Active;
-        public virtual ICollection<Material> OwnedMaterials { get; set; } = new List<Material>();
-        public virtual ICollection<Material> SellMaterials { get; set; } = new List<Material>();
-        public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+        public virtual ICollection<Contract> Contracts { get; set; } = new List<Contract>();
+        public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+        public virtual ICollection<Quotation> Quotations { get; set; } = new List<Quotation>();
     }
 }

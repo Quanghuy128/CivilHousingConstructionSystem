@@ -2,7 +2,8 @@
 {
     public enum AccountStatus
     {
-        Inactive,
+        Banned,
+        Warning,
         Active
     }
 }
