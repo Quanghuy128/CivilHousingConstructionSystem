@@ -1,5 +1,5 @@
 ﻿@page
-@model CHC.Presentation.Pages.Main.LoginModel
+@model CHC.Presentation.Pages.LoginModel
 @{
 }
 
@@ -14,7 +14,7 @@
                             There are advances being made in science and technology
                             everyday, and a good example of this is the
                         </p>
-                        <a href="#" class="btn_3">Create an Account</a>
+                        <a asp-page="/SignUp" class="btn_3">Create an Account</a>
                     </div>
                 </div>
             </div>
@@ -25,15 +25,27 @@
                             Welcome Back ! <br>
                             Please Sign in now
                         </h3>
-                        <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                        <form class="row contact_form" method="post">
+                            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    @Model.ErrorMessage
+                                </div>
+                            }
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="name" name="name" value=""
-                                       placeholder="Username">
+                                <label asp-for="Account.Username" class="control-label"></label>
+                                <input asp-for="Account.Username" class="form-control" value="@Model.Account.Username"/>
+                                <span asp-validation-for="Account.Username" class="text-danger"></span>
                             </div>
+
                             <div class="col-md-12 form-group p_star">
-                                <input type="password" class="form-control" id="password" name="password" value=""
-                                       placeholder="Password">
+                                <label asp-for="Account.Password" class="control-label"></label>
+                                <input type="password" asp-for="Account.Password" class="form-control" />
+                                <span asp-validation-for="Account.Password" class="text-danger"></span>
                             </div>
+                            
                             <div class="col-md-12 form-group">
                                 <div class="creat_account d-flex align-items-center">
                                     <input type="checkbox" id="f-option" name="selector">

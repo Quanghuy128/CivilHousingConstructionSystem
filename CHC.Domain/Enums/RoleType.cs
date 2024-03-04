@@ -4,6 +4,6 @@
     {
         Admin = 0,
         Customer,
-        Seller
+        Staff
     }
 }
