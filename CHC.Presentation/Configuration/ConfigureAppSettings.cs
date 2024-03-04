@@ -9,7 +9,12 @@ namespace CHC.Presentation.Configuration
         {
 
             AppConfig.ConnectionStrings = new ConnectionStrings();
+            AppConfig.Admin = new Admin();
+
             configuration.Bind("ConnectionStrings", AppConfig.ConnectionStrings);
+            configuration.Bind("Admin", AppConfig.Admin);
         }
+
+      
     }
 }

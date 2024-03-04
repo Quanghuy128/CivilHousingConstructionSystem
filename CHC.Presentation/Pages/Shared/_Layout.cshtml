@@ -66,27 +66,32 @@
                     }
                     @if(user != null)
                     {
+                        <h6 class="me-2">@user.DisplayName</h6>
                         @if(user.Role == RoleType.Customer)
                         {
-                            <form class="d-flex me-2">
-                                <button class="btn btn-outline-dar k" type="button">
+                            <form class="d-flex ms-2 me-2">
+                                <button class="btn btn-outline-dar k" type="submit">
                                     <i class="bi-cart-fill me-1"></i>
                                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                                 </button>
                             </form>
                         }
-                        <button class="btn btn-outline-primary me-2" type="button">
-                            <i class="bi bi-person-circle"></i>
-                            <a class="text-decoration-none" asp-page="/Profile/Index"></a>
-                        </button>
+                        @if (user.Role == RoleType.Staff || user.Role == RoleType.Staff)
+                        {
+                            <button class="btn btn-outline-primary me-2">
+                                <a class="text-decoration-none" href="/Profile?id=@user.Id"><i class="bi bi-person-circle"></i></a>
+                            </button>
+                        }
+                        
                         <form class="d-flex me-2" asp-page="/Login" asp-page-handler="logout" method="post">
-                            <button class="btn btn-outline-danger" type="button">
+                            <button class="btn btn-outline-danger" type="submit">
                                 <i class="bi bi-box-arrow-right"></i>
+                                <a class="text-decoration-none" asp-page="/Login" asp-page-handler="logout" method="post"></a>
                             </button>
                         </form>
                     }
                     else {
-                        <button class="btn btn-outline-primary" type="button">
+                        <button class="btn btn-outline-primary pointer-event" type="button">
                             <a class="text-decoration-none" asp-page="/Login">Login</a>
                         </button>
                     }
@@ -94,7 +99,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="p-3">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

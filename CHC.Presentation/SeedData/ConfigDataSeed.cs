@@ -29,6 +29,8 @@ namespace CHC.Presentation.SeedData
                     PhoneNumber = "000000000",
                     Address = "ABC, ABD Street, BDG City, VN",
                     Role = Domain.Enums.RoleType.Customer,
+                    Status = Domain.Enums.AccountStatus.Active,
+                    CreatedBy = "admin@chc.com"
                 },
                 new Account
                 {
@@ -39,6 +41,8 @@ namespace CHC.Presentation.SeedData
                     PhoneNumber = "000000000",
                     Address = "ABCD, ABD Street, BDG City, VN",
                     Role = Domain.Enums.RoleType.Customer,
+                    Status = Domain.Enums.AccountStatus.Active,
+                    CreatedBy = "admin@chc.com"
                 },
                 new Account
                 {
@@ -48,7 +52,9 @@ namespace CHC.Presentation.SeedData
                     Email = "seller1@gmail.com",
                     PhoneNumber = "000000000",
                     Address = "ABCQ, ABD Street, BDG City, VN",
-                    Role = Domain.Enums.RoleType.Seller,
+                    Role = Domain.Enums.RoleType.Staff,
+                    Status = Domain.Enums.AccountStatus.Active,
+                    CreatedBy = "admin@chc.com"
                 },
                 new Account
                 {
@@ -58,7 +64,9 @@ namespace CHC.Presentation.SeedData
                     Email = "seller2@gmail.com",
                     PhoneNumber = "000000000",
                     Address = "ABCQW, ABD Street, BDG City, VN",
-                    Role = Domain.Enums.RoleType.Seller,
+                    Role = Domain.Enums.RoleType.Staff,
+                    Status = Domain.Enums.AccountStatus.Active,
+                    CreatedBy = "admin@chc.com"
                 },
             });
 
