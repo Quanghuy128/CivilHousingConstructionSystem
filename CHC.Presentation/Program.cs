@@ -20,8 +20,6 @@ builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
 }); ;
 builder.Services.AddMvc().AddRazorPagesOptions(opt =>
 {
-    opt.Conventions.AddPageRoute("/Main/Login", "/login");
-    opt.Conventions.AddPageRoute("/Main/HomePage", "/homepage");
 });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(options =>
@@ -55,5 +53,11 @@ app.UseAuthorization();
 app.UseSession();
 
 app.MapRazorPages();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapRazorPages();
+});
 
 app.Run();
