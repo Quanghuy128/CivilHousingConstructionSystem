@@ -14,6 +14,7 @@ namespace CHC.Domain.Dtos.Account
         public string Email { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = string.Empty;
         public RoleType Role { get; set; } = RoleType.Customer;
         public AccountStatus Status { get; set; } = AccountStatus.Active;
         public virtual ICollection<Contract> Contracts { get; set; } = new List<Contract>();

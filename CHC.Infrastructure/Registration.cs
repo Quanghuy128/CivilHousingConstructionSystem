@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using CHC.Application.Repository;
+using CHC.Domain.Common;
 using CHC.Infrastructure.Repository;
 using System.Reflection;
 
