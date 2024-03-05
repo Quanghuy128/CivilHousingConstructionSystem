@@ -132,6 +132,11 @@ namespace CHC.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("customer_id");
 
+                    b.Property<double>("FinalOffer")
+                        .HasMaxLength(500)
+                        .HasColumnType("double precision")
+                        .HasColumnName("final_offer");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
                         .HasColumnName("is_deleted");
@@ -284,8 +289,6 @@ namespace CHC.Infrastructure.Migrations
                     b.HasIndex("InteriorId")
                         .IsUnique();
 
-                    b.HasIndex("MaterialId");
-
                     b.ToTable("interior_detail", "chc");
                 });
 
@@ -383,6 +386,21 @@ namespace CHC.Infrastructure.Migrations
                     b.ToTable("quotation", "chc");
                 });
 
+            modelBuilder.Entity("InteriorDetailMaterial", b =>
+                {
+                    b.Property<Guid>("InteriorDetailsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MaterialsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("InteriorDetailsId", "MaterialsId");
+
+                    b.HasIndex("MaterialsId");
+
+                    b.ToTable("interior_detail_material", "chc");
+                });
+
             modelBuilder.Entity("InteriorQuotation", b =>
                 {
                     b.Property<Guid>("InteriorsId")
@@ -428,15 +446,7 @@ namespace CHC.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CHC.Domain.Entities.Material", "Material")
-                        .WithMany("InteriorDetails")
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Interior");
-
-                    b.Navigation("Material");
                 });
 
             modelBuilder.Entity("CHC.Domain.Entities.Quotation", b =>
@@ -448,6 +458,21 @@ namespace CHC.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("InteriorDetailMaterial", b =>
+                {
+                    b.HasOne("CHC.Domain.Entities.InteriorDetail", null)
+                        .WithMany()
+                        .HasForeignKey("InteriorDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CHC.Domain.Entities.Material", null)
+                        .WithMany()
+                        .HasForeignKey("MaterialsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("InteriorQuotation", b =>
@@ -478,11 +503,6 @@ namespace CHC.Infrastructure.Migrations
                 {
                     b.Navigation("InteriorDetail")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CHC.Domain.Entities.Material", b =>
-                {
-                    b.Navigation("InteriorDetails");
                 });
 #pragma warning restore 612, 618
         }

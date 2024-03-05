@@ -9,16 +9,21 @@ using CHC.Domain.Entities;
 using CHC.Infrastructure;
 using CHC.Application.Service;
 using CHC.Domain.Dtos.Account;
+using CHC.Domain.Dtos;
+using CHC.Domain.Enums;
+using CHC.Presentation.Extensions;
 
 namespace CHC.Presentation.Pages.AccountView
 {
     public class DeleteModel : PageModel
     {
         private readonly IAccountService _accountService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public DeleteModel(IAccountService accountService)
+        public DeleteModel(IAccountService accountService, IHttpContextAccessor httpContextAccessor)
         {
             _accountService = accountService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [BindProperty]
@@ -26,6 +31,13 @@ namespace CHC.Presentation.Pages.AccountView
 
         public async Task<IActionResult> OnGetAsync(Guid id)
         {
+            SessionUser current = _httpContextAccessor.HttpContext!.Session.GetObject<SessionUser>("CurrentUser");
+            if (current == null || current.Role != RoleType.Admin)
+            {
+                _httpContextAccessor.HttpContext.Session.Clear();
+                return Redirect("/Login");
+            }
+
             if (id == null)
             {
                 return NotFound();

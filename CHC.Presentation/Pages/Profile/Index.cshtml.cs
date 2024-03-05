@@ -30,16 +30,16 @@ namespace CHC.Presentation.Pages.Profile
 
         public async Task<IActionResult> OnGetAsync(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             SessionUser current = _httpContextAccessor.HttpContext!.Session.GetObject<SessionUser>("CurrentUser");
             if (current == null)
             {
                 _httpContextAccessor.HttpContext.Session.Clear();
                 return Redirect("/Login");
+            }
+
+            if (id == null)
+            {
+                return NotFound();
             }
 
             var account = await accountService.Get(id ?? new Guid());
