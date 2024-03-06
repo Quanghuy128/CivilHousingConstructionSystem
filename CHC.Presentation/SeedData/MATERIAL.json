@@ -1,0 +1,62 @@
+[
+  {
+    "Name": "Table",
+    "Imageurl": "img/material/table.png",
+    "Price": 100,
+    "CreateBy": "admin@chc.com"
+  },
+  {
+    "Name": "Chair",
+    "Imageurl": "img/material/chair.png",
+    "Price": 50,
+    "CreateBy": "admin@chc.com"
+  },
+  {
+    "Name": "Sofa",
+    "Imageurl": "img/material/sofa.png",
+    "Price": 200,
+    "CreateBy": "admin@chc.com"
+  },
+  {
+    "Name": "Bed",
+    "Imageurl": "img/material/bed.png",
+    "Price": 300,
+    "CreateBy": "admin@chc.com"
+  },
+  {
+    "Name": "Porcelain Floor Tiles",
+    "Imageurl": "img/material/floortilesPorcelain.png",
+    "Price": 10,
+    "CreateBy": "admin@chc.com"
+  },
+  {
+    "Name": "Catalan Floor Tiles",
+    "Imageurl": "img/material/floortilesCatalan.png",
+    "Price": 12,
+    "CreateBy": "admin@chc.com"
+  },
+  {
+    "Name": "Prime2256 Floor Tiles",
+    "Imageurl": "img/material/floortilesPrime2256.png",
+    "Price": 15,
+    "CreateBy": "admin@chc.com"
+  },
+  {
+    "Name": "Air Conditoner",
+    "Imageurl": "img/material/airConditioner.png",
+    "Price": 18,
+    "CreateBy": "admin@chc.com"
+  },
+  {
+    "Name": "Refrigerator",
+    "Imageurl": "img/material/refrigerator.png",
+    "Price": 20,
+    "CreateBy": "admin@chc.com"
+  },
+  {
+    "Name": "Washing Machine",
+    "Imageurl": "img/material/washingMachine.png",
+    "Price": 22,
+    "CreateBy": "admin@chc.com"
+  }
+]

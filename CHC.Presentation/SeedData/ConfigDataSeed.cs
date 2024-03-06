@@ -10,6 +10,8 @@ namespace CHC.Presentation.SeedData
         public static async Task SeedData(this IServiceCollection services)
         {
             await services.SeedAccountData();
+            await services.SeedMaterialData();
+
         }
 
         private static async Task SeedAccountData(this IServiceCollection services)
@@ -24,5 +26,17 @@ namespace CHC.Presentation.SeedData
             await context.Accounts.AddRangeAsync(accounts);
             await context.SaveChangesAsync();
             }
+        private static async Task SeedMaterialData(this IServiceCollection services)
+        {
+            using var scope = services.BuildServiceProvider().CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            await context.Database.MigrateAsync();
+            if (context.Materials.Any()) return;
+
+            IList<Material> materials = FileExtension<Material>.LoadJson("./SeedData/", "MATERIAL.json");
+
+            await context.Materials.AddRangeAsync(materials);
+            await context.SaveChangesAsync();
         }
+    }
 }
