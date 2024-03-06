@@ -70,10 +70,9 @@ namespace CHC.Infrastructure
                 .UsingEntity(j => j.ToTable("quotation_detail"));
 
             modelBuilder.Entity<InteriorDetail>()
-                .HasOne(p => p.Material)
+                .HasMany(p => p.Materials)
                 .WithMany(d => d.InteriorDetails)
-                .HasForeignKey(p => p.MaterialId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .UsingEntity(j => j.ToTable("interior_detail_material"));
 
             modelBuilder.Entity<InteriorDetail>()
                 .HasOne(p => p.Interior)

@@ -26,4 +26,16 @@
     <ProjectReference Include="..\CHC.Infrastructure\CHC.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\ContractView\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\img\.DS_Store" />
+    <None Include="wwwroot\img\blog\.DS_Store" />
+    <None Include="wwwroot\img\product\.DS_Store" />
+    <None Include="wwwroot\img\product\blog\.DS_Store" />
+    <None Include="wwwroot\img\product\product\.DS_Store" />
+  </ItemGroup>
+
 </Project>

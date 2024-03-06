@@ -17,6 +17,6 @@ namespace CHC.Domain.Entities
         [Column("material_id")]
         [ForeignKey(nameof(Material))]
         public Guid MaterialId { get; set; }
-        public virtual Material Material { get; set; } = null!;
+        public virtual ICollection<Material> Materials { get; set; } = new List<Material>();
     }
 }

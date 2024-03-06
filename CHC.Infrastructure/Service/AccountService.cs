@@ -55,10 +55,11 @@ namespace CHC.Infrastructure.Service
 
         public async Task<AccountDto> GetByCondition(Expression<Func<Account, bool>> predicate = null)
         {
-            Account accouht = await _unitOfWork.GetRepository<Account>().SingleOrDefaultAsync(
-                predicate: predicate
-                );
-            return _mapper.Map<AccountDto>(accouht);
+            Account account = await _unitOfWork.GetRepository<Account>().SingleOrDefaultAsync(
+                predicate: predicate,
+                include: x => x.Include(x => x.Quotations)
+                ); ;
+            return _mapper.Map<AccountDto>(account);
         }
 
         public async Task<AccountDto> Login(string username, string password)
