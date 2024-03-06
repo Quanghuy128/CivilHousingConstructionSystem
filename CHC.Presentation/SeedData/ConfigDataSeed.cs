@@ -1,5 +1,6 @@
 ﻿using CHC.Domain.Entities;
 using CHC.Infrastructure;
+using CHC.Presentation.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace CHC.Presentation.SeedData
@@ -18,59 +19,9 @@ namespace CHC.Presentation.SeedData
             await context.Database.MigrateAsync();
             if (context.Accounts.Any()) return;
 
-            List<Account> Accounts = new List<Account>(new Account[]
-            {
-                new Account
-                {
-                    Username = "customer-01",
-                    Password = "1",
-                    FullName = "Customer 01",
-                    Email = "customer1@gmail.com",
-                    PhoneNumber = "000000000",
-                    Address = "ABC, ABD Street, BDG City, VN",
-                    Role = Domain.Enums.RoleType.Customer,
-                    Status = Domain.Enums.AccountStatus.Active,
-                    CreatedBy = "admin@chc.com"
-                },
-                new Account
-                {
-                    Username = "customer-02",
-                    Password = "1",
-                    FullName = "Customer 02",
-                    Email = "customer2@gmail.com",
-                    PhoneNumber = "000000000",
-                    Address = "ABCD, ABD Street, BDG City, VN",
-                    Role = Domain.Enums.RoleType.Customer,
-                    Status = Domain.Enums.AccountStatus.Active,
-                    CreatedBy = "admin@chc.com"
-                },
-                new Account
-                {
-                    Username = "seller-01",
-                    Password = "1",
-                    FullName = "Seller 01",
-                    Email = "seller1@gmail.com",
-                    PhoneNumber = "000000000",
-                    Address = "ABCQ, ABD Street, BDG City, VN",
-                    Role = Domain.Enums.RoleType.Staff,
-                    Status = Domain.Enums.AccountStatus.Active,
-                    CreatedBy = "admin@chc.com"
-                },
-                new Account
-                {
-                    Username = "seller-02",
-                    Password = "1",
-                    FullName = "Seller 02",
-                    Email = "seller2@gmail.com",
-                    PhoneNumber = "000000000",
-                    Address = "ABCQW, ABD Street, BDG City, VN",
-                    Role = Domain.Enums.RoleType.Staff,
-                    Status = Domain.Enums.AccountStatus.Active,
-                    CreatedBy = "admin@chc.com"
-                },
-            });
+            IList<Account> accounts = FileExtension<Account>.LoadJson("./SeedData/", "ACCOUNT.json");
 
-            await context.Accounts.AddRangeAsync(Accounts);
+            await context.Accounts.AddRangeAsync(accounts);
             await context.SaveChangesAsync();
             }
         }
