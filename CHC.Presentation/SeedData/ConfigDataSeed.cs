@@ -9,20 +9,22 @@ namespace CHC.Presentation.SeedData
     {
         public static async Task SeedData(this IServiceCollection services)
         {
-            await services.SeedAccountData();
-        }
+            string path = "./SeedData/";
 
-        private static async Task SeedAccountData(this IServiceCollection services)
-        {
             using var scope = services.BuildServiceProvider().CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             await context.Database.MigrateAsync();
             if (context.Accounts.Any()) return;
 
-            IList<Account> accounts = FileExtension<Account>.LoadJson("./SeedData/", "ACCOUNT.json");
-
+            //Accounts
+            IList<Account> accounts = FileExtension<Account>.LoadJson(path, "ACCOUNT.json");
             await context.Accounts.AddRangeAsync(accounts);
             await context.SaveChangesAsync();
-            }
+
+            //Interior
+            IList<Interior> interiors = FileExtension<Interior>.LoadJson(path, "INTERIOR.json");
+            await context.Interiors.AddRangeAsync(interiors);
+            await context.SaveChangesAsync();
         }
+    }
 }
