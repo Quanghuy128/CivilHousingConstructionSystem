@@ -14,7 +14,14 @@ namespace CHC.Domain.Entities
         [Column("description")]
         public string Description { get; set; } = string.Empty;
 
-        public virtual InteriorDetail InteriorDetail { get; set; } = null!;
+        [Column("location")]
+        public string Location { get; set; } = string.Empty;
+
+        [Column("total_price")]
+        public double TotalPrice { get; set; } = 0;
+
+        public virtual ICollection<InteriorDetail> InteriorDetails { get; set; } = new List<InteriorDetail>();
+        public virtual ICollection<Material> Materials { get; set; } = new List<Material>();
         public virtual ICollection<Quotation> Quotations { get; set; } = new List<Quotation>();
 
     }
