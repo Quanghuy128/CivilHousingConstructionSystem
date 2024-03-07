@@ -69,15 +69,13 @@ namespace CHC.Infrastructure
                 .WithMany(d => d.Quotations)
                 .UsingEntity(j => j.ToTable("quotation_detail"));
 
-            modelBuilder.Entity<InteriorDetail>()
+            modelBuilder.Entity<Interior>()
                 .HasMany(p => p.Materials)
-                .WithMany(d => d.InteriorDetails)
-                .UsingEntity(j => j.ToTable("interior_detail_material"));
-
-            modelBuilder.Entity<InteriorDetail>()
-                .HasOne(p => p.Interior)
-                .WithOne(d => d.InteriorDetail)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithMany(d => d.Interiors)
+                .UsingEntity<InteriorDetail>(
+                    l => l.HasOne<Material>(e => e.Material).WithMany(e => e.InteriorDetails),
+                    l => l.HasOne<Interior>(e => e.Interior).WithMany(e => e.InteriorDetails)
+                );
 
             #endregion
         }

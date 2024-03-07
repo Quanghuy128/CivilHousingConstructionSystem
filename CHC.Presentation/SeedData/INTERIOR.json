@@ -1,23 +1,26 @@
 [
   {
     "Name": "[Ho Chi Minh] Luxury Living Room",
-    "Description": "Luxury Living Room located in Ho Chi Minh City. There are many of modern furnitures from German. This is best place to live!!!"
+    "Description": "Luxury Living Room located in Ho Chi Minh City. There are many of modern furnitures from German. This is best place to live!!!",
+    "Location": "Ho Chi Minh",
     "InteriorDetail": {
-      "TotalPrice": 0,
-      "Materials": [
-
-      ]
+      "TotalPrice": 100
     }
   },
   {
     "Name": "[Ho Chi Minh] Modern Bedroom",
     "Description": "Modern Bedroom located in Ho Chi Minh City. There are many of modern furnitures from German. This is best place to live!!!",
+    "Location": "Ho Chi Minh",
     "InteriorDetail": {
       "TotalPrice": 0
     }
   },
   {
     "Name": "[Ho Chi Minh] Modern Bathroom",
-    "Description": "Modern Bathroom located in Ho Chi Minh City. There are many of modern furnitures from German. This is best place to live!!!"
+    "Description": "Modern Bathroom located in Ho Chi Minh City. There are many of modern furnitures from German. This is best place to live!!!",
+    "Location": "Ho Chi Minh",
+    "InteriorDetail": {
+      "TotalPrice": 0
+    }
   }
 ]

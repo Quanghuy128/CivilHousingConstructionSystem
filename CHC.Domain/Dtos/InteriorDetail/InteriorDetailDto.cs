@@ -7,8 +7,7 @@ namespace CHC.Domain.Dtos.InteriorDetail
 {
     public class InteriorDetailDto : BaseEntity
     {
-        public double TotalPrice { get; set; } = 0;
-        public virtual InteriorDto Interior { get; set; } = null!;
-        public virtual ICollection<MaterialDto> Materials { get; set; } = new List<MaterialDto>();
+        public int Quantity { get; set; } = 0;
+        public virtual MaterialDto Material { get; set; } = null!;
     }
 }

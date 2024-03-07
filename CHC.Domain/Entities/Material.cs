@@ -16,8 +16,13 @@ namespace CHC.Domain.Entities
         public string ImageUrl { get; set; } = string.Empty;
 
         [Column("price")]
-        public double Price { get; set; } = 0;  
+        public double Price { get; set; } = 0;
 
+        [Column("tag")]
+        [EnumDataType(typeof(MaterialTag))]
+        public MaterialTag Tag { get; set; } = MaterialTag.Others;
+
+        public virtual ICollection<Interior> Interiors { get; set; } = new List<Interior>();
         public virtual ICollection<InteriorDetail> InteriorDetails { get; set; } = new List<InteriorDetail>();
     }
 }

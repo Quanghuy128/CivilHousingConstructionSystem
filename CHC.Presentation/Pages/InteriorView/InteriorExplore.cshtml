@@ -1,4 +1,6 @@
 ﻿@page
+@using CHC.Domain.Enums
+@using CHC.Presentation.Extensions
 @model CHC.Presentation.Pages.InteriorView.InteriorExploreModel
 @{
     ViewData["Title"] = "Explore";
@@ -8,14 +10,15 @@
         <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-0">
                 <div class="blog_left_sidebar">
-                    @foreach(var item in Model.Interiors.Items)
+                    @foreach(var item in Model.Interiors)
                     {
+                        var month = item.CreatedAt.GetMonthKeyword();
                         <article class="blog_item">
                             <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="img/blog/single_blog_1.png" alt="">
+                                <img class="card-img rounded-0" src="~/img/blog/single_blog_1.png" alt="">
                                 <a href="#" class="blog_item_date">
                                     <h3>@Html.DisplayFor(model => item.CreatedAt.Day)</h3>
-                                    <p>@Html.DisplayFor(model => item.CreatedAt.Month)</p>
+                                    <p>@Html.DisplayFor(model => month)</p>
                                 </a>
                             </div>
 
@@ -27,43 +30,63 @@
                                     @Html.DisplayFor(model => item.Description)
                                 </p>
                                 <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
+                                    <li><a href="#"><i class="bi bi-geo-alt"></i>@Html.DisplayFor(model => item.Location)</a></li>
+                                    @foreach(var i in item.InteriorDetails)
+                                    {
+                                        @if (i.Material.Tag.Equals(MaterialTag.Chair))
+                                        {
+                                            <i class="fa-solid fa-chair"></i>
+                                        }
+                                        <li><span>@Html.DisplayFor(model => i.Material.Name) </span> <span>@Html.DisplayFor(model => i.Quantity)</span></li>
+                                    }
                                 </ul>
                             </div>
                         </article>
                     }
-                    <nav class="blog-pagination justify-content-center d-flex">
+
+                    @* Paging *@
+                    <div class="blog-pagination justify-content-center d-flex">
                         <ul class="pagination">
-                            <li class="page-item">
-                                <a href="#" class="page-link" aria-label="Previous">
-                                    <i class="ti-angle-left"></i>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link">1</a>
-                            </li>
-                            <li class="page-item active">
-                                <a href="#" class="page-link">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link" aria-label="Next">
-                                    <i class="ti-angle-right"></i>
-                                </a>
-                            </li>
+                            @if (Model.HasPreviousPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-page="InteriorExplore" asp-route-pageindex="@(Model.PageIndex - 1)"><i class="ti-angle-left"></i></a>
+                                </li>
+                            }
+                            @for (int i = 1; i <= Model.TotalPages; i++)
+                            {
+                                if (i == Model.PageIndex)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link disabled">@i</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link disabled" asp-page="InteriorExplore" asp-route-pageindex="@i">@i</a>
+                                    </li>
+                                }
+                            }
+                            @if (Model.HasNextPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-page="InteriorExplore" asp-route-pageindex="@(Model.PageIndex + 1)">
+                                        <i class="ti-angle-right"></i>
+                                    </a>
+                                </li>
+                            }
                         </ul>
-                    </nav>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="blog_right_sidebar">
                     <aside class="single_sidebar_widget search_widget">
-                        <form action="#">
+                        <form method="get">
                             <div class="form-group">
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder='Search Keyword'
-                                           onfocus="this.placeholder = ''"
-                                           onblur="this.placeholder = 'Search Keyword'">
+                                    <input type="text" class="form-control" placeholder='Search Keyword' name="SearchString" value="@Model.SearchString">
                                     <div class="input-group-append">
                                         <button class="btn" type="button"><i class="ti-search"></i></button>
                                     </div>

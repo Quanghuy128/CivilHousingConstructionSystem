@@ -22,9 +22,16 @@ namespace CHC.Infrastructure.Service
             throw new NotImplementedException();
         }
 
-        public Task<InteriorDto> Get(Guid id)
+        public async Task<InteriorDto> Get(Guid id)
         {
-            throw new NotImplementedException();
+            Interior interior = await _unitOfWork.GetRepository<Interior>()
+                .SingleOrDefaultAsync(
+                predicate: x => x.Id.Equals(id),
+                include: x => x.Include(x => x.InteriorDetails)
+                                .ThenInclude(x => x.Material)
+                                .Include(x => x.Quotations)
+                );
+            return _mapper.Map<InteriorDto>(interior);
         }
 
         public Task<List<InteriorDto>> GetAll()
@@ -43,7 +50,9 @@ namespace CHC.Infrastructure.Service
                 predicate: x => x.Name.Contains(search!) || x.Description.Contains(search!),
                 page: page,
                 size: pageSize,
-                include: x => x.Include(x => x.InteriorDetail).Include(x => x.Quotations)
+                include: x => x.Include(x => x.InteriorDetails)
+                                .ThenInclude(x => x.Material)
+                                .Include(x => x.Quotations)
                 );
             return _mapper.Map<IPaginate<InteriorDto>>(interiors);
         }

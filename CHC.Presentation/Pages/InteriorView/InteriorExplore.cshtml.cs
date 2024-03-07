@@ -16,11 +16,35 @@ namespace CHC.Presentation.Pages.InteriorView
         }
 
         [BindProperty(SupportsGet = true)]
-        public IPaginate<InteriorDto> Interiors { get; set; } = default!;
+        public IList<InteriorDto> Interiors { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(string? search, int? page, int? size)
+
+        public int PageIndex { get; set; } = 1;
+        public int TotalPages { get; set; }
+        public int PageSize { get; set; } = 10;
+        public bool HasNextPage => PageIndex < TotalPages;
+        public bool HasPreviousPage => PageIndex > 1;
+        public string? SearchString { get; set; } = string.Empty;
+
+
+        public async Task<IActionResult> OnGetAsync(string? searchString, int? pageIndex, int? size)
         {
-            Interiors = await interiorService.GetPagination(search, page??1, size??10);
+            if (pageIndex is not null) PageIndex = pageIndex.Value;
+            if (size is not null) PageSize = size.Value;
+            if (searchString is not null) SearchString = searchString;
+
+            IPaginate<InteriorDto> interiors = await interiorService.GetPagination(SearchString, PageIndex, PageSize);
+
+            Interiors = interiors.Items;
+            TotalPages = interiors.TotalPages;
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostSearchAsync(string? search = "")
+        {
+            IPaginate<InteriorDto> interiors = await interiorService.GetPagination(search, PageIndex, PageSize);
+            Interiors = interiors.Items;
+            TotalPages = interiors.TotalPages;
             return Page();
         }
     }
