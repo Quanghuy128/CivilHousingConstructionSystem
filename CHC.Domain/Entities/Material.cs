@@ -16,8 +16,7 @@ namespace CHC.Domain.Entities
         public string ImageUrl { get; set; } = string.Empty;
 
         [Column("price")]
-        [Required]
-        public double Price { get; set; } = double.MinValue;
+        public double Price { get; set; } = 0;  
 
         public virtual ICollection<InteriorDetail> InteriorDetails { get; set; } = new List<InteriorDetail>();
     }
