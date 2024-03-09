@@ -8,6 +8,9 @@ namespace CHC.Domain.Dtos.InteriorDetail
     public class InteriorDetailDto : BaseEntity
     {
         public int Quantity { get; set; } = 0;
-        public virtual MaterialDto Material { get; set; } = null!;
+        public Guid InteriorId { get; set; }
+        public virtual InteriorViewModel Interior { get; set; } = null!;
+        public Guid MaterialId { get; set; }
+        public virtual MaterialViewModel Material { get; set; } = null!;
     }
 }

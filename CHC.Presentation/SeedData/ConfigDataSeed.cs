@@ -41,6 +41,8 @@ namespace CHC.Presentation.SeedData
                 interiors = FileExtension<Interior>.LoadJson(path, "INTERIOR.json");
                 foreach (var i in interiors)
                 {
+                    i.StaffId = (await context.Accounts.FirstOrDefaultAsync(x => x.Role == RoleType.Staff))!.Id;
+                    i.Staff = (await context.Accounts.FirstOrDefaultAsync(x => x.Role == RoleType.Staff))!;
                     await context.Interiors.AddAsync(i);
                     IList<InteriorDetail> interiorDetails = new List<InteriorDetail>()
                     {

@@ -42,12 +42,12 @@ namespace CHC.Infrastructure.Service
             return _mapper.Map<AccountDto>(account);
         }
 
-        public Task<IPaginate<AccountDto>> GetAccounts()
+        public Task<IPaginate<AccountDto>> GetPagination(Expression<Func<AccountDto, bool>>? predicate)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<AccountDto>> GetAll()
+        public async Task<List<AccountDto>> GetAll(Expression<Func<AccountDto, bool>>? predicate)
         {
             ICollection<Account> accounts = await _unitOfWork.GetRepository<Account>().GetListAsync();
             return _mapper.Map<List<AccountDto>>(accounts);

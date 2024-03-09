@@ -41,10 +41,12 @@ namespace CHC.Application
         private static TypeAdapterConfig ConfigCustomMapper(this TypeAdapterConfig config)
         {
             config.NewConfig<Interior, InteriorDto>()
-                .Map(dest => dest.Materials, src => src.InteriorDetails.Adapt<MaterialDto>())
+                .Map(dest => dest.Materials, src => src.InteriorDetails.Adapt<MaterialViewModel>())
                 .Map(dest => dest.Quotations, src => src.Quotations);
+            config.NewConfig<Material, MaterialDto>();
             config.NewConfig<InteriorDetail, InteriorDetailDto>()
-                .Map(dest => dest.Material, src => src.Material);
+                .Map(dest => dest.Material, src => src.Material)
+                .Map(dest => dest.Interior, src => src.Interior);
             return config;
         }
     }

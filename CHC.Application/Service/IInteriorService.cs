@@ -8,12 +8,13 @@ namespace CHC.Application.Service
 {
     public interface IInteriorService
     {
-        Task<List<InteriorDto>> GetAll();
-        Task<IPaginate<InteriorDto>> GetPagination(string? search, int page, int pageSize);
-        Task<InteriorDto> Get(Guid id);
+        Task<List<InteriorDto>> GetAll(Expression<Func<Interior, bool>> predicate);
+        Task<IPaginate<InteriorDto>> GetPagination(Expression<Func<Interior, bool>> predicate, int page, int pageSize);
+		Task<InteriorDto> Get(Guid id);
         Task<InteriorDto> GetByCondition(Expression<Func<Interior, bool>> predicate);
-        //Task<InteriorDto> Create(CreateAccountRequest createAccount);
+        Task<InteriorDto> Create(CreateInteriorRequest createInteriorRequest);
         //Task<bool> Update(UpdateAccountRequest updateAccount);
         Task<bool> Delete(Guid id);
+
     }
 }

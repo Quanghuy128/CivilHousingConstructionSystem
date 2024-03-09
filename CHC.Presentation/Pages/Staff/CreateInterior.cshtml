@@ -1,0 +1,62 @@
+﻿@page
+@model CHC.Presentation.Pages.Staff.CreateInteriorModel
+
+@{
+    ViewData["Title"] = "CreateInterior";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <form method="post">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @Model.ErrorMessage
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success" role="alert">
+                        @Model.SuccessMessage
+                    </div>
+                    <a asp-page="InitializeMaterialQuantity" asp-route-interiorId="@Model.InteriorId">Initialize Material Quantity</a>
+                }
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="form-group col-4">
+                        <label asp-for="Interior.Name" class="control-label"></label>
+                        <input asp-for="Interior.Name" class="form-control" />
+                        <span asp-validation-for="Interior.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-4">
+                        <label asp-for="Interior.Location" class="control-label"></label>
+                        <input asp-for="Interior.Location" class="form-control" />
+                        <span asp-validation-for="Interior.Location" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-4">
+                        <label asp-for="Interior.TotalPrice" class="control-label"></label>
+                        <input asp-for="Interior.TotalPrice" class="form-control" />
+                        <span asp-validation-for="Interior.TotalPrice" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Material Selection" class="control-label">Material Selection</label>
+                    <select multiple name="MaterialIds" class="form-control" asp-items="ViewBag.MaterialId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Interior.Description" class="control-label"></label>
+                    <textarea asp-for="Interior.Description" class="form-control" rows="2" cols="20"></textarea>
+                    <span asp-validation-for="Interior.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
