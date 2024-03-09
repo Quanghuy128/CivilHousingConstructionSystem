@@ -29,7 +29,7 @@ namespace CHC.Presentation.Pages.AccountView
                 _httpContextAccessor.HttpContext.Session.Clear();
                 return Redirect("/Login");
             }
-            Account = await _accountService.GetAll();
+            Account = await _accountService.GetAll(x => x.FullName.Contains(""));
             return Page();
         }
     }

@@ -13,5 +13,10 @@ namespace CHC.Domain.Entities
         [ForeignKey("Customer")]
         public Guid CustomerId { get; set; }
         public virtual Account Customer { get; set; } = null!;
+
+        [Column("interior_id")]
+        [ForeignKey("Interior")]
+        public Guid InteriorId { get; set; }
+        public virtual Interior Interior { get; set; } = null!;
     }
 }

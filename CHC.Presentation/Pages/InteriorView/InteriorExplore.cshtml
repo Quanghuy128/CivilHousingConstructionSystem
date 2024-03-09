@@ -16,14 +16,14 @@
                         <article class="blog_item">
                             <div class="blog_item_img">
                                 <img class="card-img rounded-0" src="~/img/blog/single_blog_1.png" alt="">
-                                <a href="#" class="blog_item_date">
+                                <a href="#" class="blog_item_date text-center">
                                     <h3>@Html.DisplayFor(model => item.CreatedAt.Day)</h3>
                                     <p>@Html.DisplayFor(model => month)</p>
                                 </a>
                             </div>
 
                             <div class="blog_details">
-                                <a class="d-inline-block" href="single-blog.html">
+                                <a class="d-inline-block" asp-page="./InteriorDetail" asp-route-id="@item.Id">
                                     <h2>@Html.DisplayFor(model => item.Name)</h2>
                                 </a>
                                 <p>
@@ -33,10 +33,6 @@
                                     <li><a href="#"><i class="bi bi-geo-alt"></i>@Html.DisplayFor(model => item.Location)</a></li>
                                     @foreach(var i in item.InteriorDetails)
                                     {
-                                        @if (i.Material.Tag.Equals(MaterialTag.Chair))
-                                        {
-                                            <i class="fa-solid fa-chair"></i>
-                                        }
                                         <li><span>@Html.DisplayFor(model => i.Material.Name) </span> <span>@Html.DisplayFor(model => i.Quantity)</span></li>
                                     }
                                 </ul>

@@ -44,6 +44,9 @@ namespace CHC.Domain.Entities
         [EnumDataType(typeof(RoleType))]
         public RoleType Role { get; set; } = RoleType.Customer;
 
+        [InverseProperty("Staff")]
+        public virtual ICollection<Interior> Interiors { get; set; } = new List<Interior>();
+
         [InverseProperty("Customer")]
         public virtual ICollection<Contract> Contracts { get; set; } = new List<Contract>();
 

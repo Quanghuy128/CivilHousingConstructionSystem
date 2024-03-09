@@ -77,6 +77,20 @@ namespace CHC.Infrastructure
                     l => l.HasOne<Interior>(e => e.Interior).WithMany(e => e.InteriorDetails)
                 );
 
+            modelBuilder.Entity<Interior>()
+                .HasOne(p => p.Staff)
+                .WithMany(d => d.Interiors)
+                .HasForeignKey(p => p.StaffId);
+
+            modelBuilder.Entity<Feedback>()
+                .HasOne(p => p.Customer)
+                .WithMany(d => d.Feedbacks)
+                .HasForeignKey(p => p.CustomerId);
+
+            modelBuilder.Entity<Feedback>()
+                .HasOne(p => p.Interior)
+                .WithMany(d => d.Feedbacks)
+                .HasForeignKey(p => p.InteriorId);
             #endregion
         }
     }
