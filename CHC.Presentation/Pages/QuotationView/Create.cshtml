@@ -1,0 +1,49 @@
+﻿@page
+@model CHC.Presentation.Pages.QuotationView.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Quotation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Quotation.RequestDate" class="control-label"></label>
+                <input asp-for="Quotation.RequestDate" class="form-control" />
+                <span asp-validation-for="Quotation.RequestDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quotation.EstimatePrice" class="control-label"></label>
+                <input asp-for="Quotation.EstimatePrice" class="form-control" />
+                <span asp-validation-for="Quotation.EstimatePrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quotation.Content" class="control-label"></label>
+                <input asp-for="Quotation.Content" class="form-control" />
+                <span asp-validation-for="Quotation.Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quotation.CustomerId" class="control-label"></label>
+                <input asp-for="Quotation.CustomerId" class="form-control" />
+                <span asp-validation-for="Quotation.CustomerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

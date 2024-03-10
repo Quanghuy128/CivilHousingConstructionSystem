@@ -20,6 +20,16 @@ namespace CHC.Infrastructure.Service
         {
         }
 
+        public Task<MaterialDto> Create(CreateMaterialRequest createMaterial)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<MaterialDto> Get(Guid id)
         {
             Material material = await _unitOfWork.GetRepository<Material>().SingleOrDefaultAsync(predicate: p => p.Id.Equals(id));
