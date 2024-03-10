@@ -5,7 +5,8 @@
     ViewData["Title"] = "InitializeMaterialQuantity";
 }
 
-<h1>Initialize Material Quantity - @Html.DisplayNameFor(model => model.InteriorDetails[0].Interior.Name)</h1>
+<h1>Initialize Material Quantity - @Html.DisplayFor(model => model.InteriorDetails[0].Interior.Name)</h1>
+<a class="mt-2" asp-page="/Staff/InitializeMaterialQuantity" asp-page-handler="Back"><button class="btn btn-warning">Back</button></a>
 
 <div class="container">
     <table class="table">
@@ -29,12 +30,12 @@
                     </td>
                     <form method="post">
                         <td>
-                            <input hidden asp-for="InteriorId" value="@item.InteriorId" />
-                            <input hidden asp-for="MaterialId" value="@item.MaterialId" />
+                        <input hidden asp-for="CreateInterialDetailRequest.InteriorId" value="@item.InteriorId" />
+                        <input hidden asp-for="CreateInterialDetailRequest.MaterialId" value="@item.MaterialId" />
                             <div class="form-group col-4">
-                                <label asp-for="Quantity" class="control-label"></label>
-                                <input asp-for="Quantity" value="@item.Quantity" class="form-control" />
-                                <span asp-validation-for="Quantity" class="text-danger"></span>
+                            <label asp-for="CreateInterialDetailRequest.Quantity" class="control-label"></label>
+                            <input asp-for="CreateInterialDetailRequest.Quantity" value="@item.Quantity" class="form-control" />
+                            <span asp-validation-for="CreateInterialDetailRequest.Quantity" class="text-danger"></span>
                             </div>
                         </td>
                         <td><button type="submit" class="btn btn-primary">Confirm</button></td>
