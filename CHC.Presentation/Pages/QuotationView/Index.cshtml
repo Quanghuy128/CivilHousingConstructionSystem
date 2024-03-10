@@ -55,7 +55,9 @@
                             <span class="number-increment"> <i class="ti-plus"></i></span>
                         </div> *@
                         <form asp-page-handler="Confirm" method="post">
-                            <button class="btn_3">Confirm</button>
+                            <input hidden name="InteriorId" value="@Model.InteriorDetails[0].InteriorId" />
+                            <input hidden name="price" value="@Model.TotalPrice" />
+                            <button class="btn_3" type="submit">Confirm</button>
                         </form>
                         <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
                     </div>

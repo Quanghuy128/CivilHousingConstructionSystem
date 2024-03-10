@@ -13,11 +13,13 @@ namespace CHC.Presentation.Pages.QuotationView
     {
         private readonly IInteriorDetailService interiorDetailService;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IQuotationService quotationService;
 
-		public IndexModel(IInteriorDetailService interiorDetailService, IHttpContextAccessor httpContextAccessor)
+        public IndexModel(IInteriorDetailService interiorDetailService, IHttpContextAccessor httpContextAccessor, IQuotationService quotationService)
 		{
 			this.interiorDetailService = interiorDetailService;
 			this.httpContextAccessor = httpContextAccessor;
+            this.quotationService = quotationService;
 		}
 
         [BindProperty(SupportsGet = true)]
@@ -36,7 +38,7 @@ namespace CHC.Presentation.Pages.QuotationView
             return Page();
         }
 
-        public async Task<IActionResult> OnPostConfirmAsync()
+        public async Task<IActionResult> OnPostConfirmAsync(string interiorId, double price)
         {
             SessionUser current = httpContextAccessor.HttpContext!.Session.GetObject<SessionUser>("CurrentUser");
             if (current == null || current.Role != RoleType.Customer)
@@ -45,8 +47,15 @@ namespace CHC.Presentation.Pages.QuotationView
                 return Redirect("/Login");
             }
 
+            CreateQuotaionRequest createQuotaionRequest = new CreateQuotaionRequest()
+            {
+                EstimatePrice = price,
+                CustomerId = current.Id,
+                InteriorId = new Guid(interiorId),
+            };
 
-
+            var result = await quotationService.Create(createQuotaionRequest);
+            if (result == null) return Page();
             return Redirect("/QuotationView/Tracking");
         }
     }
