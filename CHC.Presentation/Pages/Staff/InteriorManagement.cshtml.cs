@@ -46,7 +46,8 @@ namespace CHC.Presentation.Pages.Staff
 			if (size is not null) PageSize = size.Value;
 			if (searchString is not null) SearchString = searchString;
 
-			IPaginate<InteriorDto> interior = await interiorService.GetPagination(x => x.StaffId.Equals(new Guid(staffId)) && x.Name.Contains(SearchString), PageIndex, PageSize);
+			IPaginate<InteriorDto> interior = await interiorService
+				.GetPagination(x => x.StaffId.Equals(new Guid(staffId)) && x.Name.Contains(SearchString) && x.IsDeleted.Equals(false), PageIndex, PageSize);
 
 			Interiors = interior.Items;
             TotalPages = interior.TotalPages;
@@ -55,9 +56,14 @@ namespace CHC.Presentation.Pages.Staff
         }
 		public async Task<IActionResult> OnPostDeleteAsync(string id)
 		{
-			if(!ModelState.IsValid) return Page();
+			SessionUser current = httpContextAccessor.HttpContext!.Session.GetObject<SessionUser>("CurrentUser");
+			if (current == null || current.Role == RoleType.Customer)
+			{
+				httpContextAccessor.HttpContext.Session.Clear();
+				return Redirect("/Login");
+			}
 			await interiorService.Delete(new Guid(id));
-			return Page();
+			return Redirect("/Staff/InteriorManagement?staffId="+current.Id);
 		}
     }
 }

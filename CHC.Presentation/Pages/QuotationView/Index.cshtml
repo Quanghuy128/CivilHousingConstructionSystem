@@ -9,37 +9,54 @@
             <div class="col-lg-7 col-xl-7">
                 <div class="product_slider_img">
                     <div id="vertical">
-                        <div data-thumb="img/product/single-product/product_1.png">
+                       @*  <div data-thumb="img/product/single-product/product_1.png">
                             <img src="img/product/single-product/product_1.png" />
-                        </div>
+                        </div> *@
                     </div>
                 </div>
             </div>
             <div class="col-lg-5 col-xl-4">
                 <div class="s_product_text">
-                    <h3>Faded SkyBlu Denim Jeans</h3>
-                    <h2>$149.99</h2>
+                    <h3>@Html.DisplayFor(model => Model.InteriorDetails[0].Interior.Name)</h3>
+                    <h2>@Html.DisplayFor(model => Model.TotalPrice)$</h2>
                     <ul class="list">
+                        @foreach (var i in Model.InteriorDetails) { 
+                            <li>
+                                <div class="d-flex justify-content-between">
+                                    <span>@Html.DisplayFor(model => i.Material.Name) (@Html.DisplayFor(model => i.Quantity))</span>
+                                    @{
+                                        double totalPrice = i.Material.Price * i.Quantity;
+                                    }
+                                    <span>@totalPrice$</span>
+                                </div>
+                            </li>
+                        }
+                        <hr/>
                         <li>
-                            <a class="active" href="#">
-                                <span>Category</span> : Household
-                            </a>
+                            <div class="d-flex justify-content-between"><span>Construction</span> <span>100$</span></div>
                         </li>
                         <li>
-                            <a href="#"> <span>Availibility</span> : In Stock</a>
+                            <div class="d-flex justify-content-between"><span>Delivery</span> <span>70$</span></div>
                         </li>
                     </ul>
-                    <p>
-                        First replenish living. Creepeth image image. Creeping can't, won't called.
-                        Two fruitful let days signs sea together all land fly subdue
+                    <p class="">
+                        note*
                     </p>
+                    @if (!string.IsNullOrEmpty(Model.Message))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Model.Message
+                        </div>
+                    }
                     <div class="card_area d-flex justify-content-between align-items-center">
-                        <div class="product_count">
+                        @* <div class="product_count">
                             <span class="inumber-decrement"> <i class="ti-minus"></i></span>
                             <input class="input-number" type="text" value="1" min="0" max="10">
                             <span class="number-increment"> <i class="ti-plus"></i></span>
-                        </div>
-                        <a href="#" class="btn_3">add to cart</a>
+                        </div> *@
+                        <form asp-page-handler="Confirm" method="post">
+                            <button class="btn_3">Confirm</button>
+                        </form>
                         <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
                     </div>
                 </div>
@@ -183,7 +200,7 @@
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>
                                         <h5>12th Feb, 2017 at 05:56 pm</h5>
-                                        <a class="reply_btn" href="#">Reply</a>
+                                        @* <a class="reply_btn" href="#">Reply</a>
                                     </div>
                                 </div>
                                 <p>
@@ -201,7 +218,7 @@
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>
                                         <h5>12th Feb, 2017 at 05:56 pm</h5>
-                                        <a class="reply_btn" href="#">Reply</a>
+                                        @* <a class="reply_btn" href="#">Reply</a> *@
                                     </div>
                                 </div>
                                 <p>
@@ -219,7 +236,7 @@
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>
                                         <h5>12th Feb, 2017 at 05:56 pm</h5>
-                                        <a class="reply_btn" href="#">Reply</a>
+                                        @* <a class="reply_btn" href="#">Reply</a> *@
                                     </div>
                                 </div>
                                 <p>
@@ -231,7 +248,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    @* <div class="col-lg-6">
                         <div class="review_box">
                             <h4>Post a comment</h4>
                             <form class="row contact_form" action="contact_process.php" method="post" id="contactForm"
@@ -264,7 +281,7 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    </div> *@
                 </div>
             </div>
             <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
@@ -402,7 +419,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    @* <div class="col-lg-6">
                         <div class="review_box">
                             <h4>Add a Review</h4>
                             <p>Your Rating:</p>
@@ -462,7 +479,7 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    </div> *@
                 </div>
             </div>
         </div>

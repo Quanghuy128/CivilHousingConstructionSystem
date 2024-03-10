@@ -27,6 +27,7 @@ namespace CHC.Presentation.Pages.Staff
         }
 
         public IList<InteriorDetailDto> InteriorDetails { get;set; } = default!;
+        public string Message { get; set; } = string.Empty;
 
         public async Task<IActionResult> OnGetAsync(string interiorId)
         {
@@ -41,27 +42,29 @@ namespace CHC.Presentation.Pages.Staff
         }
 
         [BindProperty]
-        public string InteriorId { get; set; }
-        [BindProperty]
-        public string MaterialId { get; set; }
-        [BindProperty]
-        public int Quantity { get; set; }
+        public CreateInterialDetailRequest CreateInterialDetailRequest { get; set; }
         public async Task<IActionResult> OnPostAsync()
         {
             SessionUser current = httpContextAccessor.HttpContext!.Session.GetObject<SessionUser>("CurrentUser");
             if (current == null || current.Role == RoleType.Customer)
             {
                 httpContextAccessor.HttpContext.Session.Clear();
-                return Redirect("/Login");
+                return Redirect("/Login");  
             }
 
-            await interiorDetailService.Update(new CreateInterialDetailRequest()
-            {
-                InteriorId = new Guid(InteriorId),
-                MaterialId = new Guid(MaterialId),
-                Quantity = Quantity
-            });
-            return Redirect("/Staff/InteriorManagement?staffId="+current.Id);
+            await interiorDetailService.Update(CreateInterialDetailRequest);
+            return Redirect("/Staff/InitializeMaterialQuantity?interiorId="+ CreateInterialDetailRequest.InteriorId);
+		}
+
+        public async Task<IActionResult> OnGetBack()
+        {
+			SessionUser current = httpContextAccessor.HttpContext!.Session.GetObject<SessionUser>("CurrentUser");
+			if (current == null || current.Role == RoleType.Customer)
+			{
+				httpContextAccessor.HttpContext.Session.Clear();
+				return Redirect("/Login");
+			}
+			return Redirect("/Staff/InteriorManagement?staffId="+current.Id);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace CHC.Presentation.Pages.InteriorView
 
         public int PageIndex { get; set; } = 1;
         public int TotalPages { get; set; }
-        public int PageSize { get; set; } = 10;
+        public int PageSize { get; set; } = 3;
         public bool HasNextPage => PageIndex < TotalPages;
         public bool HasPreviousPage => PageIndex > 1;
         public string? SearchString { get; set; } = string.Empty;

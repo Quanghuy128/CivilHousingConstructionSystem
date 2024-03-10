@@ -3,6 +3,7 @@ using System;
 using CHC.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CHC.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240310064110_Update-Contract-Relation")]
+    partial class UpdateContractRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -378,10 +381,6 @@ namespace CHC.Infrastructure.Migrations
                         .HasColumnType("double precision")
                         .HasColumnName("estimate_price");
 
-                    b.Property<Guid>("InteriorId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("interior_id");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
                         .HasColumnName("is_deleted");
@@ -402,27 +401,40 @@ namespace CHC.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("InteriorId");
-
                     b.ToTable("quotation", "chc");
+                });
+
+            modelBuilder.Entity("InteriorQuotation", b =>
+                {
+                    b.Property<Guid>("InteriorsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("QuotationsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("InteriorsId", "QuotationsId");
+
+                    b.HasIndex("QuotationsId");
+
+                    b.ToTable("quotation_detail", "chc");
                 });
 
             modelBuilder.Entity("CHC.Domain.Entities.Contract", b =>
                 {
                     b.HasOne("CHC.Domain.Entities.Account", "Customer")
-                        .WithMany("CustomerContracts")
+                        .WithMany("Contracts")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CHC.Domain.Entities.Interior", "Interior")
-                        .WithMany("Contracts")
+                        .WithMany()
                         .HasForeignKey("InteriorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CHC.Domain.Entities.Account", "Staff")
-                        .WithMany("StaffContracts")
+                        .WithMany()
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -491,39 +503,40 @@ namespace CHC.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CHC.Domain.Entities.Interior", "Interior")
-                        .WithMany("Quotations")
-                        .HasForeignKey("InteriorId")
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("InteriorQuotation", b =>
+                {
+                    b.HasOne("CHC.Domain.Entities.Interior", null)
+                        .WithMany()
+                        .HasForeignKey("InteriorsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customer");
-
-                    b.Navigation("Interior");
+                    b.HasOne("CHC.Domain.Entities.Quotation", null)
+                        .WithMany()
+                        .HasForeignKey("QuotationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CHC.Domain.Entities.Account", b =>
                 {
-                    b.Navigation("CustomerContracts");
+                    b.Navigation("Contracts");
 
                     b.Navigation("Feedbacks");
 
                     b.Navigation("Interiors");
 
                     b.Navigation("Quotations");
-
-                    b.Navigation("StaffContracts");
                 });
 
             modelBuilder.Entity("CHC.Domain.Entities.Interior", b =>
                 {
-                    b.Navigation("Contracts");
-
                     b.Navigation("Feedbacks");
 
                     b.Navigation("InteriorDetails");
-
-                    b.Navigation("Quotations");
                 });
 
             modelBuilder.Entity("CHC.Domain.Entities.Material", b =>

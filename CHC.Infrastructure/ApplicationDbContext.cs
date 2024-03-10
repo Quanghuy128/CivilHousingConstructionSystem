@@ -1,4 +1,5 @@
-﻿using CHC.Domain.Entities;
+﻿using CHC.Domain.Common;
+using CHC.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 using System.Security.Principal;
@@ -33,7 +34,7 @@ namespace CHC.Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                .UseNpgsql("server=db-postgresql-sgp1-25425-do-user-15933004-0.c.db.ondigitalocean.com;port=25060;database=defaultdb;uid=doadmin;password=AVNS_gji6s3Aop8tNMQ0jabg;TrustServerCertificate=True;SslMode=Require;Pooling=false;");
+                .UseNpgsql("server=localhost;port=5432;database=chc;uid=postgres;password=root;TrustServerCertificate=True;");
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -45,12 +46,6 @@ namespace CHC.Infrastructure
             modelBuilder.HasDefaultSchema("chc");
 
             #region Entity Relation
-
-            modelBuilder.Entity<Account>()
-                .HasMany(p => p.Contracts)
-                .WithOne(d => d.Customer)
-                .HasForeignKey(p => p.CustomerId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Account>()
                 .HasMany(p => p.Feedbacks)
@@ -65,9 +60,9 @@ namespace CHC.Infrastructure
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Quotation>()
-                .HasMany(p => p.Interiors)
+                .HasOne(p => p.Interior)
                 .WithMany(d => d.Quotations)
-                .UsingEntity(j => j.ToTable("quotation_detail"));
+                .HasForeignKey(p => p.InteriorId);
 
             modelBuilder.Entity<Interior>()
                 .HasMany(p => p.Materials)
@@ -90,6 +85,21 @@ namespace CHC.Infrastructure
             modelBuilder.Entity<Feedback>()
                 .HasOne(p => p.Interior)
                 .WithMany(d => d.Feedbacks)
+                .HasForeignKey(p => p.InteriorId);
+
+            modelBuilder.Entity<Contract>()
+                .HasOne(p => p.Customer)
+                .WithMany(d => d.CustomerContracts)
+                .HasForeignKey(p => p.CustomerId);
+
+            modelBuilder.Entity<Contract>()
+                .HasOne(p => p.Staff)
+                .WithMany(d => d.StaffContracts)
+                .HasForeignKey(p => p.StaffId);
+
+            modelBuilder.Entity<Contract>()
+                .HasOne(p => p.Interior)
+                .WithMany(d => d.Contracts)
                 .HasForeignKey(p => p.InteriorId);
             #endregion
         }

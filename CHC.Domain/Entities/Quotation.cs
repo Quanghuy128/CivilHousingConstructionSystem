@@ -22,6 +22,9 @@ namespace CHC.Domain.Entities
         public Guid CustomerId { get; set; }
         public virtual Account Customer { get; set; } = null!;
 
-        public virtual ICollection<Interior> Interiors { get; set; } = new List<Interior>();
+        [Column("interior_id")]
+        [ForeignKey("Interior")]
+        public Guid InteriorId { get; set; }
+        public virtual Interior Interior { get; set; } = null!;
     }
 }

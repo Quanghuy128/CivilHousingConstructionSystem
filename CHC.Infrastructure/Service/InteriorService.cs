@@ -71,6 +71,7 @@ namespace CHC.Infrastructure.Service
                 predicate: predicate,
                 page: page,
                 size: pageSize,
+                orderBy: x => x.OrderByDescending(x => x.CreatedAt),
                 include: x => x.Include(x => x.Staff)
                                 .Include(x => x.InteriorDetails)
                                 .ThenInclude(x => x.Material)
