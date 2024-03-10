@@ -1,4 +1,5 @@
 ﻿using CHC.Domain.Common;
+using CHC.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,6 +17,10 @@ namespace CHC.Domain.Entities
         [Column("content")]
         [StringLength(500)]
         public string Content { get; set; } = string.Empty;
+
+        [Column("status")]
+        [EnumDataType(typeof(QuotationStatus))]
+        public QuotationStatus Status { get; set; } = QuotationStatus.Pending;
 
         [Column("customer_id")]
         [ForeignKey("Customer")]

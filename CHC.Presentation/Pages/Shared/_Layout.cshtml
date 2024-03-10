@@ -1,8 +1,11 @@
-﻿@using CHC.Domain.Dtos
+﻿@using CHC.Application.Service
+@using CHC.Domain.Dtos
+@using CHC.Domain.Dtos.Quotation
 @using CHC.Domain.Enums
 @using Microsoft.AspNetCore.Http
 @using System.Text.Json
 @inject IHttpContextAccessor HttpContextAccessor
+@inject IQuotationService quotationService
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,6 +37,8 @@
         @{
             var userJSON = HttpContextAccessor.HttpContext!.Session.GetString("CurrentUser");
             var user = userJSON == null ? default(SessionUser) : JsonSerializer.Deserialize<SessionUser>(userJSON);
+
+            IList<QuotationDto> quotations = await quotationService.GetAll(x => x.Content.Contains(""));
         }
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
@@ -67,6 +72,18 @@
                                     </div>
                                 </li>
                             }
+                            @if (user!.Role == RoleType.Customer)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2"
+                                       role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Tracking
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+                                        <a class="dropdown-item" href="/QuotationView/Tracking">Quotations Tracking</a>
+                                    </div>
+                                </li>
+                            }
                         }
                         <li class="nav-item">
                             <a class="nav-link" href="contact.html">Contact</a>
@@ -81,7 +98,7 @@
                             <form class="d-flex ms-2 me-2">
                                 <button class="btn btn-outline-dark" type="submit">
                                     <i class="bi-cart-fill me-1"></i>
-                                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                                    <span class="badge bg-dark text-white ms-1 rounded-pill">@quotations.Count</span>
                                 </button>
                             </form>
                         }

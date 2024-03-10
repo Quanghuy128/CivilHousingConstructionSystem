@@ -3,6 +3,7 @@ using CHC.Domain.Common;
 using CHC.Domain.Dtos.Interior;
 using CHC.Domain.Dtos.InteriorDetail;
 using CHC.Domain.Dtos.Material;
+using CHC.Domain.Dtos.Quotation;
 using CHC.Domain.Entities;
 using Mapster;
 using MapsterMapper;
@@ -43,10 +44,13 @@ namespace CHC.Application
             config.NewConfig<Interior, InteriorDto>()
                 .Map(dest => dest.Materials, src => src.InteriorDetails.Adapt<MaterialViewModel>())
                 .Map(dest => dest.Quotations, src => src.Quotations);
-            config.NewConfig<Material, MaterialDto>();
+            config.NewConfig<Quotation, QuotationDto>()
+                .Map(dest => dest.Interior, src => src.Interior.Adapt<InteriorViewModel>())
+                .Map(dest => dest.Interior.InteriorDetails, src => src.Interior.InteriorDetails.Adapt<ICollection<InteriorDetailViewModel>>())
+                .Map(dest => dest.Interior.Materials, src => src.Interior.InteriorDetails.Select(x => x.Material));
             config.NewConfig<InteriorDetail, InteriorDetailDto>()
                 .Map(dest => dest.Material, src => src.Material)
-                .Map(dest => dest.Interior, src => src.Interior);
+                .Map(dest => dest.Interior, src => src.Interior);   
             return config;
         }
     }
