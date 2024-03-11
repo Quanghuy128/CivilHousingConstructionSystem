@@ -3,9 +3,11 @@ using CHC.Domain.Dtos;
 using CHC.Domain.Dtos.InteriorDetail;
 using CHC.Domain.Dtos.Quotation;
 using CHC.Domain.Enums;
+using CHC.Infrastructure.Service;
 using CHC.Presentation.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CHC.Presentation.Pages.QuotationView
 {
@@ -27,6 +29,25 @@ namespace CHC.Presentation.Pages.QuotationView
         public string Message { get; set; } = string.Empty;
         public double TotalPrice { get; set; } = 0;
 
+        object[] ConstructionCostoptions = new[] {
+            new {
+                Name = "Fastest Construction (3 Days) - 100$",
+                Value = 100
+            },
+            new {
+                Name = "Tomorrow Construction (1 Week) - 70$",
+                Value = 70
+            },
+            new {
+                Name = "Standard Construction (2 Weeks) - 50$",
+                Value = 50
+            },
+            new {
+                Name = "Frees",
+                Value = 0
+            },
+        };
+
 		public async Task<IActionResult> OnGetAsync(Guid interiorId)
         {
             InteriorDetails = await interiorDetailService.GetAll(predicate: x => x.InteriorId.Equals(interiorId));
@@ -34,11 +55,11 @@ namespace CHC.Presentation.Pages.QuotationView
             {
                 TotalPrice += item.Quantity * item.Material.Price;
             }
-            TotalPrice += (100 + 70);
+            ViewData["ConstructionOptions"] = new SelectList(ConstructionCostoptions, "Value", "Name");
             return Page();
         }
 
-        public async Task<IActionResult> OnPostConfirmAsync(string interiorId, double price)
+        public async Task<IActionResult> OnPostConfirmAsync(string interiorId, double price, double shippingCost, double constructionCost)
         {
             SessionUser current = httpContextAccessor.HttpContext!.Session.GetObject<SessionUser>("CurrentUser");
             if (current == null || current.Role != RoleType.Customer)

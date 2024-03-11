@@ -11,6 +11,7 @@ namespace CHC.Domain.Dtos.Contract
         public DateTime AgreementDate { get; set; } = DateTime.Now;
         public string Content { get; set; } = string.Empty;
         public double FinalOffer { get; set; } = 0;
+        public int Discount { get; set; } = 0;
         public ContractStatus Status { get; set; } = ContractStatus.Progressing;
         public virtual AccountViewModel Customer { get; set; } = null!;
         public virtual AccountViewModel Staff { get; set; } = null!;

@@ -5,6 +5,7 @@ using CHC.Domain.Entities;
 using MapsterMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
 
 namespace CHC.Infrastructure.Service
 {
@@ -19,5 +20,14 @@ namespace CHC.Infrastructure.Service
 			List<Material> materials = (await _unitOfWork.GetRepository<Material>().GetListAsync()).ToList();
 			return _mapper.Map<List<MaterialDto>>(materials);
 		}
-	}
+
+        public async Task<MaterialViewModel> GetOneByCondition(Expression<Func<Material, bool>> predicate)
+        {
+            Material material = await _unitOfWork.GetRepository<Material>()
+				.SingleOrDefaultAsync(
+					predicate: predicate
+				);
+			return _mapper.Map<MaterialViewModel>(material);
+        }
+    }
 }

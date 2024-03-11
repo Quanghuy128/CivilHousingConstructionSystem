@@ -79,5 +79,12 @@ namespace CHC.Infrastructure.Service
                 );
             return _mapper.Map<IPaginate<InteriorDto>>(interiors);
         }
+
+        public async Task<bool> Update(UpdateInteriorRequest updateInteriorRequest)
+        {
+            Interior interior = _mapper.Map<Interior>(updateInteriorRequest);
+            _unitOfWork.GetRepository<Interior>().UpdateAsync(interior);
+            return await _unitOfWork.CommitAsync() > 0;
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace CHC.Application.Service
 		Task<InteriorDto> Get(Guid id);
         Task<InteriorDto> GetByCondition(Expression<Func<Interior, bool>> predicate);
         Task<InteriorDto> Create(CreateInteriorRequest createInteriorRequest);
-        //Task<bool> Update(UpdateAccountRequest updateAccount);
+        Task<bool> Update(UpdateInteriorRequest updateInteriorRequest);
         Task<bool> Delete(Guid id);
 
     }
