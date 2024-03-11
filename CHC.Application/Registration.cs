@@ -48,7 +48,10 @@ namespace CHC.Application
             config.NewConfig<Quotation, QuotationDto>()
                 .Map(dest => dest.Interior, src => src.Interior.Adapt<InteriorViewModel>())
                 .Map(dest => dest.Interior.InteriorDetails, src => src.Interior.InteriorDetails.Adapt<ICollection<InteriorDetailViewModel>>())
-                .Map(dest => dest.Interior.Materials, src => src.Interior.InteriorDetails.Select(x => x.Material));
+                .Map(dest => dest.Interior.Materials, src => src.Interior.InteriorDetails.Select(x => x.Material))
+                .IgnoreNullValues(true);
+            config.NewConfig<UpdateQuotationRequest, Quotation>()
+                .IgnoreIf((src, dest) => dest.Customer != null, dest => dest.Customer);
             config.NewConfig<InteriorDetail, InteriorDetailDto>()
                 .Map(dest => dest.Material, src => src.Material)
                 .Map(dest => dest.Interior, src => src.Interior);

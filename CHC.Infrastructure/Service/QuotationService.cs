@@ -78,9 +78,21 @@ namespace CHC.Infrastructure.Service
 
 		public async Task<bool> Update(UpdateQuotationRequest updateQuotationRequest)
 		{
-			Quotation quotation = await _unitOfWork.GetRepository<Quotation>().SingleOrDefaultAsync(predicate: x => x.Id.Equals(updateQuotationRequest.Id));
-			quotation.Status = updateQuotationRequest.Status;
-            _unitOfWork.GetRepository<Quotation>().UpdateAsync(quotation);
+			Quotation quotation = await _unitOfWork.GetRepository<Quotation>()
+                .SingleOrDefaultAsync(
+                    predicate: x => x.Id.Equals(updateQuotationRequest.Id), 
+                    include: x => x.Include(x => x.Customer)
+									    .Include(x => x.Interior).ThenInclude(x => x.InteriorDetails).ThenInclude(x => x.Material));
+
+            quotation.EstimatePrice = updateQuotationRequest.EstimatePrice;
+            quotation.Content = updateQuotationRequest.Content;
+            quotation.ShippingCost = updateQuotationRequest.ShippingCost;
+            quotation.ConstructionCost = updateQuotationRequest.ConstructionCost;
+            quotation.CustomerId = updateQuotationRequest.CustomerId;
+            quotation.InteriorId = updateQuotationRequest.InteriorId;
+            quotation.Status = updateQuotationRequest.Status;
+
+			_unitOfWork.GetRepository<Quotation>().UpdateAsync(quotation);
             return await _unitOfWork.CommitAsync() > 0;
 		}
 	}
