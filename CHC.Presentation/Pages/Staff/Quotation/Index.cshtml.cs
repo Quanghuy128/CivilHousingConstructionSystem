@@ -7,6 +7,7 @@ using CHC.Domain.Pagination;
 using CHC.Presentation.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MapsterMapper;
 
 namespace CHC.Presentation.Pages.Staff.Quotation
 {
@@ -14,11 +15,13 @@ namespace CHC.Presentation.Pages.Staff.Quotation
     {
 		private readonly IHttpContextAccessor httpContextAccessor;
 		private readonly IQuotationService quotationService;
+		private readonly IMapper mapper;
 
-		public IndexModel(IHttpContextAccessor httpContextAccessor, IQuotationService quotationService)
+		public IndexModel(IHttpContextAccessor httpContextAccessor, IQuotationService quotationService, IMapper mapper)
 		{
 			this.httpContextAccessor = httpContextAccessor;
 			this.quotationService = quotationService;
+			this.mapper = mapper;
 		}
 
 		[BindProperty(SupportsGet = true)]
@@ -52,6 +55,21 @@ namespace CHC.Presentation.Pages.Staff.Quotation
 			
 			return Page();
 		}
+		public async Task<IActionResult> OnPostApproveAsync(string id)
+		{
+			QuotationDto quotation = await quotationService.Get(new Guid(id));
+			quotation.Status = QuotationStatus.Success;
+			await quotationService.Update(mapper.Map<UpdateQuotationRequest>(quotation));
+			return RedirectToPage("/Staff/Quotation/Index");
+		}
+		public async Task<IActionResult> OnPostRejectAsync(string id)
+		{
+			QuotationDto quotation = await quotationService.Get(new Guid(id));
+			quotation.Status = QuotationStatus.Rejected;
+			await quotationService.Update(mapper.Map<UpdateQuotationRequest>(quotation));
+			return RedirectToPage("/Staff/Quotation/Index");
 
-    }
+		}
+
+	}
 }
