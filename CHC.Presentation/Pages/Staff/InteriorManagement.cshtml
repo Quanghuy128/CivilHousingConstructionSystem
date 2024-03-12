@@ -10,8 +10,23 @@
 				<div class="col-sm-6">
 					<h2>Manage <b>Interiors</b></h2>
 				</div>
-				<div class="col-sm-6">
-					<a class="btn btn-success" asp-page="CreateInterior"><span>Add</span></a>
+				<div class="col-sm-6 row">
+					<div class="col-8">
+						<form method="get">
+							<div class="form-group">
+								<div class="input-group mb-3">
+									<input hidden name="staffId" value="@Model.StaffId"/>
+									<input type="text" class="form-control" placeholder='Search Keyword' name="SearchString" value="@Model.SearchString">
+									<div class="input-group-append">
+										<button class="btn" type="submit"><i class="ti-search"></i></button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="col-4 align-content-start">
+						<a class="btn btn-success" asp-page="CreateInterior"><span>Add</span></a>
+					</div>
 				</div>
 			</div>
 		</div>

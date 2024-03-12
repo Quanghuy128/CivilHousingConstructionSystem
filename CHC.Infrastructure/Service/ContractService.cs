@@ -34,9 +34,16 @@ namespace CHC.Infrastructure.Service
             throw new NotImplementedException();
         }
 
-        public Task<List<ContractDto>> GetAll(Expression<Func<Contract, bool>> predicate)
+        public async Task<List<ContractDto>> GetAll(Expression<Func<Contract, bool>> predicate)
         {
-            throw new NotImplementedException();
+            IList<Contract> contracts = (await _unitOfWork.GetRepository<Contract>()
+                .GetListAsync(
+                    predicate: predicate,
+                    include: x => x.Include(x => x.Customer)
+                                    .Include(x => x.Staff)
+                                    .Include(x => x.Interior)
+                )).ToList();
+            return _mapper.Map<List<ContractDto>>(contracts);
         }
 
         public Task<ContractDto> GetByCondition(Expression<Func<Interior, bool>> predicate)

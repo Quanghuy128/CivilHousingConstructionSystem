@@ -1,11 +1,13 @@
 ﻿@using CHC.Application.Service
 @using CHC.Domain.Dtos
+@using CHC.Domain.Dtos.Contract
 @using CHC.Domain.Dtos.Quotation
 @using CHC.Domain.Enums
 @using Microsoft.AspNetCore.Http
 @using System.Text.Json
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IQuotationService quotationService
+@inject IContractService contractService
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,8 +39,13 @@
         @{
             var userJSON = HttpContextAccessor.HttpContext!.Session.GetString("CurrentUser");
             var user = userJSON == null ? default(SessionUser) : JsonSerializer.Deserialize<SessionUser>(userJSON);
-
-            IList<QuotationDto> quotations = await quotationService.GetAll(x => x.Content.Contains(""));
+            IList<QuotationDto> quotations = new List<QuotationDto>();
+            IList<ContractDto> contracts = new List<ContractDto>();
+            if(user != null)
+            {
+                quotations = await quotationService.GetAll(x => x.CustomerId.Equals(user!.Id));
+                contracts = await contractService.GetAll(x => x.CustomerId.Equals(user!.Id));
+            }
         }
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
@@ -63,7 +70,7 @@
                             @if (user!.Role == RoleType.Staff)
                             {
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2"
+                                    <a class="nav-link dropdown-toggle" href="/Staff/InteriorManagement?staffId=@user.Id" id="navbarDropdown_2"
                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Tracking
                                     </a>
@@ -76,7 +83,7 @@
                             @if (user!.Role == RoleType.Customer)
                             {
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2"
+                                    <a class="nav-link dropdown-toggle" href="/QuotationView/Tracking" id="navbarDropdown_2"
                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Tracking
                                     </a>
@@ -93,12 +100,20 @@
                         <h6 class="me-2 me-2 mb-0">@user.DisplayName</h6>
                         @if(user.Role == RoleType.Customer)
                         {
-                            <form class="d-flex ms-2 me-2">
-                                <button class="btn btn-outline-dark" type="submit">
-                                    <i class="bi-cart-fill me-1"></i>
-                                    <span class="badge bg-dark text-white ms-1 rounded-pill">@quotations.Count</span>
-                                </button>
-                            </form>
+                            <div class="d-flex ms-2 me-2">
+                                <a class="dropdown-item px-1" href="/QuotationView/Tracking">
+                                    <button class="btn btn-outline-dark" type="submit">
+                                        <i class="bi bi-bookmarks-fill"></i>
+                                        <span class="badge bg-dark text-white ms-1 rounded-pill">@quotations.Count</span>
+                                    </button>
+                                </a>
+                                <a class="dropdown-item px-0" href="/QuotationView/Tracking">
+                                    <button class="btn btn-outline-dark" type="submit">
+                                        <i class="bi bi-ui-checks"></i>
+                                        <span class="badge bg-danger text-white ms-1 rounded-pill">@contracts.Count</span>
+                                    </button>
+                                </a>
+                            </div>
                         }
                         @if (user.Role == RoleType.Staff || user.Role == RoleType.Customer)
                         {
@@ -245,7 +260,6 @@
     <script src="js/masonry.pkgd.js"></script>
     <!-- particles js -->
     <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
     <!-- slick js -->
     <script src="js/slick.min.js"></script>
     <script src="js/jquery.counterup.min.js"></script>

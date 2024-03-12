@@ -29,13 +29,13 @@ namespace CHC.Presentation.Pages.Staff.Quotation
 
 		public int PageIndex { get; set; } = 1;
 		public int TotalPages { get; set; }
-		public int PageSize { get; set; } = 1;
+		public int PageSize { get; set; } = 10;
 		public bool HasNextPage => PageIndex < TotalPages;
 		public bool HasPreviousPage => PageIndex > 1;
 		public string? SearchString { get; set; } = string.Empty;
 		public double TotalPrice { get; set; } = 0;
 
-		public async Task<IActionResult> OnGetAsync(int? pageIndex, int? size)
+		public async Task<IActionResult> OnGetAsync(string? searchString, int? pageIndex, int? size)
 		{
 			SessionUser current = httpContextAccessor.HttpContext!.Session.GetObject<SessionUser>("CurrentUser");
 			if (current == null || current.Role == RoleType.Customer)
@@ -46,9 +46,10 @@ namespace CHC.Presentation.Pages.Staff.Quotation
 
 			if (pageIndex is not null) PageIndex = pageIndex.Value;
 			if (size is not null) PageSize = size.Value;
+			if (searchString is not null) SearchString = searchString;
 
-			IPaginate<QuotationDto> quotations = await quotationService
-				.GetPagination(x => x.Content.Contains(SearchString), PageIndex, PageSize);
+				IPaginate<QuotationDto> quotations = await quotationService
+				.GetPagination(x => x.Content.Contains(SearchString) || x.Interior.Name.Contains(SearchString), PageIndex, PageSize);
 			Quotations = quotations.Items;
 			TotalPages = quotations.TotalPages;
 

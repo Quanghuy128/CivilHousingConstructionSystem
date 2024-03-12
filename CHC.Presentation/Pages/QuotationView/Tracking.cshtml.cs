@@ -33,6 +33,7 @@ namespace CHC.Presentation.Pages.QuotationView
         public bool HasNextPage => PageIndex < TotalPages;
         public bool HasPreviousPage => PageIndex > 1;
         public string? SearchString { get; set; } = string.Empty;
+        [BindProperty]
         public double TotalPrice { get; set; } = 0;
 
         public async Task<IActionResult> OnGetAsync(int? pageIndex, int? size)
@@ -48,9 +49,10 @@ namespace CHC.Presentation.Pages.QuotationView
             if (size is not null) PageSize = size.Value;
 
             IPaginate<QuotationDto> quotations = await quotationService
-                .GetPagination(x => x.Content.Contains(SearchString), PageIndex, PageSize);
+                .GetPagination(x => x.Content.Contains(SearchString) && x.CustomerId.Equals(current.Id), PageIndex, PageSize);
             Quotations = quotations.Items;
             TotalPages = quotations.TotalPages;
+
             return Page();
         }
         public async Task<IActionResult> OnPostDeleteAsync(string id)

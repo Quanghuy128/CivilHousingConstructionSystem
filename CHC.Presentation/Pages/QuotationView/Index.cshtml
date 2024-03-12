@@ -3,15 +3,16 @@
 @{
     ViewData["Title"] = "Quotation";
 }
+
 <div class="product_image_area section_padding">
     <div class="container">
         <div class="row s_product_inner justify-content-between">
             <div class="col-lg-7 col-xl-7">
                 <div class="product_slider_img">
                     <div id="vertical">
-                       @*  <div data-thumb="img/product/single-product/product_1.png">
+                        <div data-thumb="img/product/single-product/product_1.png">
                             <img src="img/product/single-product/product_1.png" />
-                        </div> *@
+                        </div>
                     </div>
                 </div>
             </div>
@@ -34,24 +35,23 @@
                             }
                             <hr/>
                             <li>
-                               
+                                <div class="form-group">
+                                    <select name="constructionCost" class="form-select" asp-items="ViewBag.ConstructionOptions">
+                                    </select>
+                                </div>
                             </li>
                             <li>
-                                @* <select name="shippingCost" class="form-select">
-                                    <option value="100">Fastest Shipping (2h) - 100$</option>
-                                    <option value="70">Tomorrow Shipping - 70$</option>
-                                    <option value="50">Standard Shipping - 50$</option>
-                                    <option value="0">Free</option>
-                                </select>*@
+                                <div class="form-group">
+                                    <select name="shippingCost" class="form-select" asp-items="ViewBag.DeliveryOptions">
+                                    </select>
+                                </div>
                             </li>
                         </ul>
-                        <div class="form-group">
-                            <label class="control-label">construction cost</label>
-                            <select name="MaterialIds" class="form-control" asp-items="ViewBag.ConstructionOptions"></select>
-                        </div>
+                        
                         <p class="">
                             note*
                         </p>
+                        
                         @if (!string.IsNullOrEmpty(Model.Message))
                         {
                             <div class="alert alert-danger" role="alert">
@@ -70,6 +70,7 @@
         </div>
     </div>
 </div>
+
 <section class="product_description_area">
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -224,7 +225,7 @@
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>
                                         <h5>12th Feb, 2017 at 05:56 pm</h5>
-                                        @* <a class="reply_btn" href="#">Reply</a> *@
+                                        @* <a class="reply_btn" href="#">Reply</a>
                                     </div>
                                 </div>
                                 <p>
