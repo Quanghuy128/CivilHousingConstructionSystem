@@ -29,16 +29,7 @@ namespace CHC.Infrastructure.Service
         {
             List<InteriorDetail> interiors = _mapper.Map<List<InteriorDetail>>(interiorDetails);
             await _unitOfWork.GetRepository<InteriorDetail>().InsertRangeAsync(interiors);
-			double totalPrice = 0;
-			foreach (var item in interiors)
-			{
-				totalPrice += item.Material.Price;
-
-			}
-
-			Interior interior = await _unitOfWork.GetRepository<Interior>().SingleOrDefaultAsync(predicate: x => x.Id.Equals(interiorDetails[0].InteriorId));
-			interior.TotalPrice = totalPrice;
-			return await _unitOfWork.CommitAsync() > 0;
+            return await _unitOfWork.CommitAsync() > 0;
         }
 
         public async Task<bool> Update(CreateInterialDetailRequest createInterialDetailRequest)

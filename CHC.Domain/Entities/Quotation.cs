@@ -18,6 +18,12 @@ namespace CHC.Domain.Entities
         [StringLength(500)]
         public string Content { get; set; } = string.Empty;
 
+        [Column("shipping_cost")]
+        public double ShippingCost { get; set; } = 0;
+
+        [Column("construction_cost")]
+        public double ConstructionCost { get; set; } = 0;
+
         [Column("status")]
         [EnumDataType(typeof(QuotationStatus))]
         public QuotationStatus Status { get; set; } = QuotationStatus.Pending;

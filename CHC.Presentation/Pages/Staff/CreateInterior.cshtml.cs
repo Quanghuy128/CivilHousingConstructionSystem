@@ -13,6 +13,7 @@ using CHC.Domain.Enums;
 using CHC.Presentation.Extensions;
 using CHC.Domain.Dtos.Interior;
 using CHC.Domain.Dtos.InteriorDetail;
+using MapsterMapper;
 
 namespace CHC.Presentation.Pages.Staff
 {
@@ -22,13 +23,15 @@ namespace CHC.Presentation.Pages.Staff
         private readonly IMaterialService materialService;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IInteriorDetailService interiorDetailService;
+        private readonly IMapper mapper;
 
-		public CreateInteriorModel(IInteriorService interiorService, IMaterialService materialService, IHttpContextAccessor httpContextAccessor, IInteriorDetailService interiorDetailService)
+		public CreateInteriorModel(IInteriorService interiorService, IMaterialService materialService, IHttpContextAccessor httpContextAccessor, IInteriorDetailService interiorDetailService, IMapper mapper)
 		{
 			this.interiorService = interiorService;
 			this.materialService = materialService;
 			this.httpContextAccessor = httpContextAccessor;
             this.interiorDetailService = interiorDetailService;
+            this.mapper = mapper;
 		}
 
 		public async Task<IActionResult> OnGetAsync()
@@ -66,7 +69,11 @@ namespace CHC.Presentation.Pages.Staff
             }
 
             Interior.StaffId = current.Id;
-			InteriorDto interior = await interiorService.Create(Interior);
+            foreach (var id in materialIds)
+            {
+                Interior.TotalPrice += (await materialService.GetOneByCondition(x => x.Id.Equals(new Guid(id)))).Price;
+            }
+            InteriorDto interior = await interiorService.Create(Interior);
 
             List<InteriorDetailDto> details = new List<InteriorDetailDto>();
 
@@ -76,10 +83,10 @@ namespace CHC.Presentation.Pages.Staff
                 {
                     InteriorId = interior.Id,
                     MaterialId = new Guid(id),
+                    Material = (await materialService.GetOneByCondition(x => x.Id.Equals(new Guid(id)))),
                     Quantity = 1,
                 });
             }
-
             bool result = await interiorDetailService.AddRange(details);
 
             if (!result)

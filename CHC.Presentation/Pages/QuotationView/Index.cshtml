@@ -17,50 +17,54 @@
             </div>
             <div class="col-lg-5 col-xl-4">
                 <div class="s_product_text">
-                    <h3>@Html.DisplayFor(model => Model.InteriorDetails[0].Interior.Name)</h3>
-                    <h2>@Html.DisplayFor(model => Model.TotalPrice)$</h2>
-                    <ul class="list">
-                        @foreach (var i in Model.InteriorDetails) { 
+                    <form asp-page-handler="Confirm" method="post">
+                        <h3>@Html.DisplayFor(model => Model.InteriorDetails[0].Interior.Name)</h3>
+                        <h2>@Html.DisplayFor(model => Model.TotalPrice)$</h2>
+                        <ul class="list">
+                            @foreach (var i in Model.InteriorDetails) { 
+                                <li>
+                                    <div class="d-flex justify-content-between">
+                                        <span>@Html.DisplayFor(model => i.Material.Name) (@Html.DisplayFor(model => i.Quantity))</span>
+                                        @{
+                                            double totalPrice = i.Material.Price * i.Quantity;
+                                        }
+                                        <span>@totalPrice$</span>
+                                    </div>
+                                </li>
+                            }
+                            <hr/>
                             <li>
-                                <div class="d-flex justify-content-between">
-                                    <span>@Html.DisplayFor(model => i.Material.Name) (@Html.DisplayFor(model => i.Quantity))</span>
-                                    @{
-                                        double totalPrice = i.Material.Price * i.Quantity;
-                                    }
-                                    <span>@totalPrice$</span>
-                                </div>
+                               
                             </li>
-                        }
-                        <hr/>
-                        <li>
-                            <div class="d-flex justify-content-between"><span>Construction</span> <span>100$</span></div>
-                        </li>
-                        <li>
-                            <div class="d-flex justify-content-between"><span>Delivery</span> <span>70$</span></div>
-                        </li>
-                    </ul>
-                    <p class="">
-                        note*
-                    </p>
-                    @if (!string.IsNullOrEmpty(Model.Message))
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            @Model.Message
+                            <li>
+                                @* <select name="shippingCost" class="form-select">
+                                    <option value="100">Fastest Shipping (2h) - 100$</option>
+                                    <option value="70">Tomorrow Shipping - 70$</option>
+                                    <option value="50">Standard Shipping - 50$</option>
+                                    <option value="0">Free</option>
+                                </select>*@
+                            </li>
+                        </ul>
+                        <div class="form-group">
+                            <label class="control-label">construction cost</label>
+                            <select name="MaterialIds" class="form-control" asp-items="ViewBag.ConstructionOptions"></select>
                         </div>
-                    }
-                    <div class="card_area d-flex justify-content-between align-items-center">
-                        @* <div class="product_count">
-                            <span class="inumber-decrement"> <i class="ti-minus"></i></span>
-                            <input class="input-number" type="text" value="1" min="0" max="10">
-                            <span class="number-increment"> <i class="ti-plus"></i></span>
-                        </div> *@
-                        <form asp-page-handler="Confirm" method="post">
-                            <input hidden name="InteriorId" value="@Model.InteriorDetails[0].InteriorId" />
-                            <input hidden name="price" value="@Model.TotalPrice" />
-                            <button class="btn_3" type="submit">Confirm</button>
-                        </form>
-                        <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
-                    </div>
+                        <p class="">
+                            note*
+                        </p>
+                        @if (!string.IsNullOrEmpty(Model.Message))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @Model.Message
+                            </div>
+                        }
+                        <div class="card_area d-flex justify-content-between align-items-center">
+                                <input hidden name="InteriorId" value="@Model.InteriorDetails[0].InteriorId" />
+                                <input hidden name="price" value="@Model.TotalPrice" />
+                                <button class="btn_3" type="submit">Confirm</button>
+                            <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

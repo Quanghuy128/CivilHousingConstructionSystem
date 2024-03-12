@@ -16,8 +16,10 @@ namespace CHC.Domain.Entities
         public string Content { get; set; } = string.Empty;
 
         [Column("final_offer")]
-        [StringLength(500)]
         public double FinalOffer { get; set; } = 0;
+
+        [Column("discount")]
+        public int Discount { get; set; } = 0;
 
         [Column("status")]
         [EnumDataType(typeof(ContractStatus))]

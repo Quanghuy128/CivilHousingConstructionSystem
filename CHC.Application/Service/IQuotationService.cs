@@ -13,6 +13,7 @@ namespace CHC.Application.Service
         Task<QuotationDto> Get(Guid id);
         Task<QuotationDto> GetByCondition(Expression<Func<Quotation, bool>> predicate);
         Task<QuotationDto> Create(CreateQuotaionRequest createQuotaionRequest);
-        Task<bool> Delete(Guid id);
+        Task<bool> Update(UpdateQuotationRequest updateQuotationRequest);
+		Task<bool> Delete(Guid id);
     }
 }

@@ -7,6 +7,7 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Drawing.Printing;
 using System.Linq.Expressions;
 
@@ -33,10 +34,16 @@ namespace CHC.Infrastructure.Service
             return await _unitOfWork.CommitAsync() > 0;
         }
 
-        public Task<QuotationDto> Get(Guid id)
+        public async Task<QuotationDto> Get(Guid id)
         {
-            throw new NotImplementedException();
-        }
+			Quotation quotation = (await _unitOfWork.GetRepository<Quotation>()
+				 .SingleOrDefaultAsync(
+					 predicate: x => x.Id.Equals(id),
+					 include: x => x.Include(x => x.Customer)
+									 .Include(x => x.Interior).ThenInclude(x => x.InteriorDetails).ThenInclude(x => x.Material)
+				 ));
+            return _mapper.Map<QuotationDto>(quotation);
+		}
 
         public async Task<IList<QuotationDto>> GetAll(Expression<Func<Quotation, bool>> predicate)
         {
@@ -68,5 +75,25 @@ namespace CHC.Infrastructure.Service
                 );
             return _mapper.Map<IPaginate<QuotationDto>>(quotations);
         }
-    }
+
+		public async Task<bool> Update(UpdateQuotationRequest updateQuotationRequest)
+		{
+			Quotation quotation = await _unitOfWork.GetRepository<Quotation>()
+                .SingleOrDefaultAsync(
+                    predicate: x => x.Id.Equals(updateQuotationRequest.Id), 
+                    include: x => x.Include(x => x.Customer)
+									    .Include(x => x.Interior).ThenInclude(x => x.InteriorDetails).ThenInclude(x => x.Material));
+
+            quotation.EstimatePrice = updateQuotationRequest.EstimatePrice;
+            quotation.Content = updateQuotationRequest.Content;
+            quotation.ShippingCost = updateQuotationRequest.ShippingCost;
+            quotation.ConstructionCost = updateQuotationRequest.ConstructionCost;
+            quotation.CustomerId = updateQuotationRequest.CustomerId;
+            quotation.InteriorId = updateQuotationRequest.InteriorId;
+            quotation.Status = updateQuotationRequest.Status;
+
+			_unitOfWork.GetRepository<Quotation>().UpdateAsync(quotation);
+            return await _unitOfWork.CommitAsync() > 0;
+		}
+	}
 }

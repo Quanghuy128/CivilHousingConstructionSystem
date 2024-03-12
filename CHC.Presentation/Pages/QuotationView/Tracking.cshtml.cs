@@ -15,19 +15,14 @@ namespace CHC.Presentation.Pages.QuotationView
 {
     public class TrackingModel : PageModel
     {
-        private readonly IInteriorDetailService interiorDetailService;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IQuotationService quotationService;
 
-        public TrackingModel(IInteriorDetailService interiorDetailService, IHttpContextAccessor httpContextAccessor, IQuotationService quotationService)
+        public TrackingModel(IHttpContextAccessor httpContextAccessor, IQuotationService quotationService)
         {
-            this.interiorDetailService = interiorDetailService;
             this.httpContextAccessor = httpContextAccessor;
             this.quotationService = quotationService;
         }
-
-        [BindProperty(SupportsGet = true)]
-        public IList<InteriorDetailDto> InteriorDetails { get; set; } = new List<InteriorDetailDto>();
 
         [BindProperty(SupportsGet = true)]
         public IList<QuotationDto> Quotations { get; set; } = new List<QuotationDto>();
@@ -52,16 +47,10 @@ namespace CHC.Presentation.Pages.QuotationView
             if (pageIndex is not null) PageIndex = pageIndex.Value;
             if (size is not null) PageSize = size.Value;
 
-            IPaginate<QuotationDto> contracts = await quotationService
+            IPaginate<QuotationDto> quotations = await quotationService
                 .GetPagination(x => x.Content.Contains(SearchString), PageIndex, PageSize);
-            Quotations = contracts.Items;
-            TotalPages = contracts.TotalPages;
-
-            foreach (var item in InteriorDetails)
-            {
-                TotalPrice += item.Quantity * item.Material.Price;
-            }
-            TotalPrice += (100 + 70);
+            Quotations = quotations.Items;
+            TotalPages = quotations.TotalPages;
             return Page();
         }
         public async Task<IActionResult> OnPostDeleteAsync(string id)

@@ -42,15 +42,21 @@ namespace CHC.Application
         private static TypeAdapterConfig ConfigCustomMapper(this TypeAdapterConfig config)
         {
             config.NewConfig<Interior, InteriorDto>()
+                .Map(dest => dest.Id, src => src.Id)
                 .Map(dest => dest.Materials, src => src.InteriorDetails.Adapt<MaterialViewModel>())
                 .Map(dest => dest.Quotations, src => src.Quotations);
             config.NewConfig<Quotation, QuotationDto>()
                 .Map(dest => dest.Interior, src => src.Interior.Adapt<InteriorViewModel>())
                 .Map(dest => dest.Interior.InteriorDetails, src => src.Interior.InteriorDetails.Adapt<ICollection<InteriorDetailViewModel>>())
-                .Map(dest => dest.Interior.Materials, src => src.Interior.InteriorDetails.Select(x => x.Material));
+                .Map(dest => dest.Interior.Materials, src => src.Interior.InteriorDetails.Select(x => x.Material))
+                .IgnoreNullValues(true);
+            config.NewConfig<UpdateQuotationRequest, Quotation>()
+                .IgnoreIf((src, dest) => dest.Customer != null, dest => dest.Customer);
             config.NewConfig<InteriorDetail, InteriorDetailDto>()
                 .Map(dest => dest.Material, src => src.Material)
-                .Map(dest => dest.Interior, src => src.Interior);   
+                .Map(dest => dest.Interior, src => src.Interior);
+            config.NewConfig<Material, MaterialDto>();
+            config.NewConfig<Material, MaterialViewModel>();
             return config;
         }
     }
