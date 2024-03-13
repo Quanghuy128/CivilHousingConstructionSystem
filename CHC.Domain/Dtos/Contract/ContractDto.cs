@@ -1,6 +1,7 @@
 ﻿using CHC.Domain.Common;
 using CHC.Domain.Dtos.Account;
 using CHC.Domain.Dtos.Interior;
+using CHC.Domain.Dtos.Quotation;
 using CHC.Domain.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,6 +16,6 @@ namespace CHC.Domain.Dtos.Contract
         public ContractStatus Status { get; set; } = ContractStatus.Progressing;
         public virtual AccountViewModel Customer { get; set; } = null!;
         public virtual AccountViewModel Staff { get; set; } = null!;
-        public virtual InteriorViewModel Interior { get; set; } = null!;
+        public virtual QuotationDto Quotation { get; set; } = null!;
     }
 }

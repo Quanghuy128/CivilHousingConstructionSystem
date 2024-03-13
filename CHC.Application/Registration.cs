@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using CHC.Domain.Common;
+using CHC.Domain.Dtos.Contract;
 using CHC.Domain.Dtos.Interior;
 using CHC.Domain.Dtos.InteriorDetail;
 using CHC.Domain.Dtos.Material;
@@ -57,6 +58,8 @@ namespace CHC.Application
                 .Map(dest => dest.Interior, src => src.Interior);
             config.NewConfig<Material, MaterialDto>();
             config.NewConfig<Material, MaterialViewModel>();
+            config.NewConfig<UpdateContractRequest, ContractDto>()
+                .Map(dest => dest.Status, src => src.Status);
             return config;
         }
     }

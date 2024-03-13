@@ -7,6 +7,7 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq.Expressions;
 
 namespace CHC.Infrastructure.Service
@@ -21,6 +22,7 @@ namespace CHC.Infrastructure.Service
         {
             Contract contract = _mapper.Map<Contract>(createContractRequest);
             await _unitOfWork.GetRepository<Contract>().InsertAsync(contract);
+            await _unitOfWork.CommitAsync();
             return _mapper.Map<ContractDto>(contract);
         }
 
@@ -29,9 +31,16 @@ namespace CHC.Infrastructure.Service
             throw new NotImplementedException();
         }
 
-        public Task<ContractDto> Get(Guid id)
+        public async Task<ContractDto> Get(Guid id)
         {
-            throw new NotImplementedException();
+            Contract contract = (await _unitOfWork.GetRepository<Contract>()
+                .SingleOrDefaultAsync(
+                    predicate: x => x.Id.Equals(id),
+                    include: x => x.Include(x => x.Customer)
+                                    .Include(x => x.Staff)
+                                    .Include(x => x.Quotation).ThenInclude(x => x.Interior)
+                ));
+            return _mapper.Map<ContractDto>(contract);
         }
 
         public async Task<List<ContractDto>> GetAll(Expression<Func<Contract, bool>> predicate)
@@ -41,7 +50,7 @@ namespace CHC.Infrastructure.Service
                     predicate: predicate,
                     include: x => x.Include(x => x.Customer)
                                     .Include(x => x.Staff)
-                                    .Include(x => x.Interior)
+                                    .Include(x => x.Quotation).ThenInclude(x => x.Interior)
                 )).ToList();
             return _mapper.Map<List<ContractDto>>(contracts);
         }
@@ -61,9 +70,30 @@ namespace CHC.Infrastructure.Service
                     size: pageSize,
                     include: x => x.Include(x => x.Customer)
                                     .Include(x => x.Staff)
-                                    .Include(x => x.Interior)
-                );
+                                    .Include(x => x.Quotation).ThenInclude(x => x.Interior)
+				);
             return _mapper.Map<IPaginate<ContractDto>>(contracts);
+        }
+
+        public async Task<bool> Update(UpdateContractRequest updateContractRequest)
+        {
+            Contract contract = await _unitOfWork.GetRepository<Contract>()
+                .SingleOrDefaultAsync(
+                    predicate: x => x.Id.Equals(updateContractRequest.Id),
+                    include: x => x.Include(x => x.Customer)
+                                    .Include(x => x.Staff)
+                                    .Include(x => x.Quotation).ThenInclude(x => x.Interior)
+                );
+
+            contract.Content = updateContractRequest.Content;
+            contract.FinalOffer = updateContractRequest.FinalOffer;
+            contract.Discount = updateContractRequest.Discount;
+            contract.StaffId = updateContractRequest.StaffId;
+            contract.CustomerId = updateContractRequest.CustomerId;
+            contract.Status = updateContractRequest.Status;
+
+            _unitOfWork.GetRepository<Contract>().UpdateAsync(contract);
+            return await _unitOfWork.CommitAsync() > 0;
         }
     }
 }

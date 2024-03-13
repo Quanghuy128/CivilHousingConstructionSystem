@@ -37,5 +37,7 @@ namespace CHC.Domain.Entities
         [ForeignKey("Interior")]
         public Guid InteriorId { get; set; }
         public virtual Interior Interior { get; set; } = null!;
-    }
+
+		public virtual ICollection<Contract> Contracts { get; set; } = new List<Contract>();
+	}
 }

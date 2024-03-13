@@ -25,7 +25,6 @@ namespace CHC.Domain.Entities
         public Guid StaffId { get; set; } 
         public virtual Account Staff { get; set; } = null!;
         public virtual ICollection<InteriorDetail> InteriorDetails { get; set; } = new List<InteriorDetail>();
-        public virtual ICollection<Contract> Contracts { get; set; } = new List<Contract>();
         public virtual ICollection<Material> Materials { get; set; } = new List<Material>();
         public virtual ICollection<Quotation> Quotations { get; set; } = new List<Quotation>();
         public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
