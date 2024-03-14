@@ -83,7 +83,6 @@ namespace CHC.Presentation.Pages.Staff
                 {
                     InteriorId = interior.Id,
                     MaterialId = new Guid(id),
-                    Material = (await materialService.GetOneByCondition(x => x.Id.Equals(new Guid(id)))),
                     Quantity = 1,
                 });
             }
