@@ -21,6 +21,12 @@ namespace CHC.Infrastructure.Service
 
         public async Task<QuotationDto> Create(CreateQuotaionRequest createQuotaionRequest)
         {
+            Quotation existedQuotation = await _unitOfWork.GetRepository<Quotation>()
+                .SingleOrDefaultAsync(
+                    predicate: x => x.CustomerId.Equals(createQuotaionRequest.CustomerId) && x.InteriorId.Equals(createQuotaionRequest.InteriorId)
+                );
+            if (existedQuotation is not null) return null!;
+
             Quotation quotation = _mapper.Map<Quotation>(createQuotaionRequest);
             await _unitOfWork.GetRepository<Quotation>().InsertAsync(quotation);
             await _unitOfWork.CommitAsync();

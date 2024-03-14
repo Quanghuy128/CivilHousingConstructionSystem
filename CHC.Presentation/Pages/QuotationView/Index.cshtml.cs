@@ -66,7 +66,7 @@ namespace CHC.Presentation.Pages.QuotationView
             },
         };
 
-        public async Task<IActionResult> OnGetAsync(Guid interiorId)
+        public async Task<IActionResult> OnGetAsync(Guid interiorId, string? message = "")
         {
             InteriorDetails = await interiorDetailService.GetAll(predicate: x => x.InteriorId.Equals(interiorId));
             foreach (var item in InteriorDetails)
@@ -75,6 +75,7 @@ namespace CHC.Presentation.Pages.QuotationView
             }
             ViewData["ConstructionOptions"] = new SelectList(ConstructionCostoptions, "Value", "Name");
             ViewData["DeliveryOptions"] = new SelectList(DeliveryOptions, "Value", "Name");
+            if(message is not null) Message = message;
             return Page();
         }
 
@@ -97,7 +98,11 @@ namespace CHC.Presentation.Pages.QuotationView
             };
 
             var result = await quotationService.Create(createQuotaionRequest);
-            if (result == null) return Page();
+            if (result == null)
+            {
+                Message = "Create Quotation Failed? May You Already Made Quoatation!!!";
+                return RedirectToPage("/QuotationView/Index",new { interiorId = interiorId, message = Message});
+            }
             return Redirect("/QuotationView/Tracking");
         }
     }

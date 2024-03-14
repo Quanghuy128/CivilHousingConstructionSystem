@@ -36,7 +36,7 @@ namespace CHC.Presentation.Pages.QuotationView
         [BindProperty]
         public double TotalPrice { get; set; } = 0;
 
-        public async Task<IActionResult> OnGetAsync(int? pageIndex, int? size)
+        public async Task<IActionResult> OnGetAsync(string? searchString, int? pageIndex, int? size)
         {
             SessionUser current = httpContextAccessor.HttpContext!.Session.GetObject<SessionUser>("CurrentUser");
             if (current == null || current.Role != RoleType.Customer)
@@ -47,10 +47,11 @@ namespace CHC.Presentation.Pages.QuotationView
 
             if (pageIndex is not null) PageIndex = pageIndex.Value;
             if (size is not null) PageSize = size.Value;
+            if (searchString is not null) SearchString = searchString;
 
             IPaginate<QuotationDto> quotations = await quotationService
-                .GetPagination(x => x.Content.Contains(SearchString) && x.CustomerId.Equals(current.Id), PageIndex, PageSize);
-            Quotations = quotations.Items;
+                .GetPagination(x => x.Content.Contains(SearchString) || x.InteriorId.Equals(searchString != null ? new Guid(SearchString) : new Guid()) && x.CustomerId.Equals(current.Id), PageIndex, PageSize); ; ;
+             Quotations = quotations.Items;
             TotalPages = quotations.TotalPages;
 
             return Page();
