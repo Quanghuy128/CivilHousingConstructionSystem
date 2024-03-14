@@ -31,6 +31,9 @@ namespace CHC.Presentation.Pages.Staff
 		public bool HasPreviousPage => PageIndex > 1;
 		public string? SearchString { get; set; } = string.Empty;
 
+		[BindProperty]
+		public string StaffId { get; set; }
+
 		public async Task<IActionResult> OnGetAsync(string staffId, string? searchString, int? pageIndex, int? size)
         {
             if (staffId == null) return Page();
@@ -51,6 +54,8 @@ namespace CHC.Presentation.Pages.Staff
 
 			Interiors = interior.Items;
             TotalPages = interior.TotalPages;
+
+			StaffId = staffId;
 
 			return Page();
         }

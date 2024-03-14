@@ -7,20 +7,40 @@
 	<div class="table-title">
 		<div class="row">
 			<div class="col-sm-6">
-				<h2>Manage <b>Interiors</b></h2>
+				<h2>Manage <b>Quotations</b></h2>
+			</div>
+			<div class="col-sm-6">
+				<form method="get">
+					<div class="form-group">
+						<div class="input-group mb-3">
+							<input type="text" class="form-control" placeholder='Search Keyword' name="SearchString" value="@Model.SearchString">
+							<div class="input-group-append">
+								<button class="btn" type="submit"><i class="ti-search"></i></button>
+							</div>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
+	@if (!string.IsNullOrEmpty(Model.Message))
+	{
+		<div class="alert alert-success" role="alert">
+			@Model.Message
+			<a asp-asp-page="" href="#">View</a>
+		</div>
+	}
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
 				<th>@Html.DisplayNameFor(model => model.Quotations[0].Id)</th>
 				<th>@Html.DisplayNameFor(model => model.Quotations[0].RequestDate)</th>
 				<th>@Html.DisplayNameFor(model => model.Quotations[0].Content)</th>
-				<th>@Html.DisplayNameFor(model => model.Quotations[0].CreatedBy)</th>
+				<th>@Html.DisplayNameFor(model => model.Quotations[0].Customer)</th>
 				<th>@Html.DisplayNameFor(model => model.Quotations[0].ShippingCost)</th>
 				<th>@Html.DisplayNameFor(model => model.Quotations[0].ConstructionCost)</th>
 				<th>@Html.DisplayNameFor(model => model.Quotations[0].Interior)</th>
+				<th>@Html.DisplayNameFor(model => model.Quotations[0].Interior.Location)</th>
 				<th>@Html.DisplayNameFor(model => model.Quotations[0].Status)</th>
 				<th>Actions</th>
 			</tr>
@@ -36,6 +56,7 @@
 					<td class="text-break">@Html.DisplayFor(model => item.ShippingCost)</td>
 					<td class="text-truncate">@Html.DisplayFor(model => item.ConstructionCost)</td>
 					<td class="text-truncate">@Html.DisplayFor(model => item.Interior.Name)</td>
+					<td class="text-truncate">@Html.DisplayFor(model => item.Interior.Location)</td>
 					<td class="text-truncate">@Html.DisplayFor(model => item.Status)</td>
 					<td>
 						<form method="post" asp-page-handler="Approve">
@@ -75,7 +96,7 @@
 			@if (Model.HasPreviousPage)
 			{
 				<li class="page-item">
-					<a class="page-link" asp-page="InteriorManagement" asp-route-id="@Model.Quotations[0].Interior.Staff.Id" asp-route-pageindex="@(Model.PageIndex - 1)">Previous</a>
+					<a class="page-link" asp-page="/Staff/Quotation/Index" asp-route-pageindex="@(Model.PageIndex - 1)">Previous</a>
 				</li>
 			}
 			@for (int i = 1; i <= Model.TotalPages; i++)
@@ -89,14 +110,14 @@
 				else
 				{
 					<li class="page-item">
-						<a class="page-link disabled" asp-page="InteriorManagement" asp-route-id="@Model.Quotations[0].Interior.Staff.Id" asp-route-pageindex="@i">@i</a>
+						<a class="page-link disabled" asp-page="/Staff/Quotation/Index" asp-route-pageindex="@i">@i</a>
 					</li>
 				}
 			}
 			@if (Model.HasNextPage)
 			{
 				<li class="page-item">
-					<a class="page-link" asp-page="InteriorExplore" asp-route-id="@Model.Quotations[0].Interior.Staff.Id" asp-route-pageindex="@(Model.PageIndex + 1)">
+					<a class="page-link" asp-page="/Staff/Quotation/Index" asp-route-pageindex="@(Model.PageIndex + 1)">
 						Next
 					</a>
 				</li>

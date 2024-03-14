@@ -13,7 +13,8 @@ namespace CHC.Domain.Dtos.Interior
         public string Description { get; set; } = string.Empty;
         public string Location { get; set; } = string.Empty;
         public double TotalPrice { get; set; } = 0;
-		public virtual AccountDto Staff { get; set; } = null!;
+        public Guid StaffId { get; set; }
+        public virtual AccountDto Staff { get; set; } = null!;
 		public virtual ICollection<InteriorDetailDto> InteriorDetails { get; set; } = new List<InteriorDetailDto>();
 		public virtual ICollection<MaterialViewModel> Materials { get; set; } = new List<MaterialViewModel>();
         public virtual ICollection<QuotationDto> Quotations { get; set; } = new List<QuotationDto>();

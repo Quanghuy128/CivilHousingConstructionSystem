@@ -1,6 +1,7 @@
 ﻿using CHC.Domain.Common;
 using CHC.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Reflection.Metadata;
 using System.Security.Principal;
 
@@ -34,8 +35,19 @@ namespace CHC.Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                .UseNpgsql("server=localhost;port=5432;database=chc;uid=postgres;password=root;TrustServerCertificate=True;");
+                .UseNpgsql("server=db-postgresql-sgp1-62598-do-user-15933004-0.c.db.ondigitalocean.com;port=25060;database=defaultdb;uid=doadmin;password=AVNS_iexQtWeoz0RjSHWKvPn;TrustServerCertificate=True;SslMode=Require;Pooling=false;");
             base.OnConfiguring(optionsBuilder);
+        }
+
+        private string GetConnectionString()
+        {
+            IConfiguration config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile("appsettings.Development.json", true, true)
+                .Build();
+            var strConn = config["ConnectionStrings:DefaultConnection"];
+            return strConn;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -98,9 +110,9 @@ namespace CHC.Infrastructure
                 .HasForeignKey(p => p.StaffId);
 
             modelBuilder.Entity<Contract>()
-                .HasOne(p => p.Interior)
+                .HasOne(p => p.Quotation)
                 .WithMany(d => d.Contracts)
-                .HasForeignKey(p => p.InteriorId);
+                .HasForeignKey(p => p.QuotationId);
             #endregion
         }
     }

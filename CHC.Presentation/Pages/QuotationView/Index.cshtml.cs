@@ -47,8 +47,26 @@ namespace CHC.Presentation.Pages.QuotationView
                 Value = 0
             },
         };
+        object[] DeliveryOptions = new[] {
+            new {
+                Name = "Fastest Delivery (3 Days) - 100$",
+                Value = 100
+            },
+            new {
+                Name = "Tomorrow Delivery (1 Week) - 70$",
+                Value = 70
+            },
+            new {
+                Name = "Standard Delivery (2 Weeks) - 50$",
+                Value = 50
+            },
+            new {
+                Name = "Frees",
+                Value = 0
+            },
+        };
 
-		public async Task<IActionResult> OnGetAsync(Guid interiorId)
+        public async Task<IActionResult> OnGetAsync(Guid interiorId)
         {
             InteriorDetails = await interiorDetailService.GetAll(predicate: x => x.InteriorId.Equals(interiorId));
             foreach (var item in InteriorDetails)
@@ -56,6 +74,7 @@ namespace CHC.Presentation.Pages.QuotationView
                 TotalPrice += item.Quantity * item.Material.Price;
             }
             ViewData["ConstructionOptions"] = new SelectList(ConstructionCostoptions, "Value", "Name");
+            ViewData["DeliveryOptions"] = new SelectList(DeliveryOptions, "Value", "Name");
             return Page();
         }
 
@@ -70,9 +89,11 @@ namespace CHC.Presentation.Pages.QuotationView
 
             CreateQuotaionRequest createQuotaionRequest = new CreateQuotaionRequest()
             {
-                EstimatePrice = price,
+                EstimatePrice = price + shippingCost + constructionCost,
                 CustomerId = current.Id,
                 InteriorId = new Guid(interiorId),
+                ShippingCost = shippingCost,
+                ConstructionCost = constructionCost
             };
 
             var result = await quotationService.Create(createQuotaionRequest);

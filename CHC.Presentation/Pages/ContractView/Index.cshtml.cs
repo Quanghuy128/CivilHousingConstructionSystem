@@ -1,42 +1,41 @@
 using CHC.Application.Service;
 using CHC.Domain.Dtos;
 using CHC.Domain.Dtos.Contract;
-using CHC.Domain.Dtos.InteriorDetail;
 using CHC.Domain.Dtos.Quotation;
-using CHC.Domain.Entities;
 using CHC.Domain.Enums;
 using CHC.Domain.Pagination;
+using CHC.Infrastructure.Service;
 using CHC.Presentation.Extensions;
+using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Security.Cryptography.X509Certificates;
 
-namespace CHC.Presentation.Pages.QuotationView
+namespace CHC.Presentation.Pages.ContractView
 {
-    public class TrackingModel : PageModel
+    public class IndexModel : PageModel
     {
+        private readonly IContractService contractService;
         private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly IQuotationService quotationService;
+        private readonly IMapper mapper;
 
-        public TrackingModel(IHttpContextAccessor httpContextAccessor, IQuotationService quotationService)
+        public IndexModel(IContractService contractService, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
+            this.contractService = contractService;
             this.httpContextAccessor = httpContextAccessor;
-            this.quotationService = quotationService;
+            this.mapper = mapper;
         }
 
         [BindProperty(SupportsGet = true)]
-        public IList<QuotationDto> Quotations { get; set; } = new List<QuotationDto>();
-
+        public IList<ContractDto> Contracts { get; set; } = new List<ContractDto>();
         public int PageIndex { get; set; } = 1;
         public int TotalPages { get; set; }
         public int PageSize { get; set; } = 1;
         public bool HasNextPage => PageIndex < TotalPages;
         public bool HasPreviousPage => PageIndex > 1;
         public string? SearchString { get; set; } = string.Empty;
-        [BindProperty]
-        public double TotalPrice { get; set; } = 0;
+        public bool IsSigned { get; set; } = false;
 
-        public async Task<IActionResult> OnGetAsync(int? pageIndex, int? size)
+        public async Task<IActionResult> OnGetAsync(bool isSigned, int? pageIndex, int? size)
         {
             SessionUser current = httpContextAccessor.HttpContext!.Session.GetObject<SessionUser>("CurrentUser");
             if (current == null || current.Role != RoleType.Customer)
@@ -45,20 +44,23 @@ namespace CHC.Presentation.Pages.QuotationView
                 return Redirect("/Login");
             }
 
+            if (isSigned is true) IsSigned = isSigned;
             if (pageIndex is not null) PageIndex = pageIndex.Value;
             if (size is not null) PageSize = size.Value;
 
-            IPaginate<QuotationDto> quotations = await quotationService
+            IPaginate<ContractDto> contacts = await contractService
                 .GetPagination(x => x.Content.Contains(SearchString) && x.CustomerId.Equals(current.Id), PageIndex, PageSize);
-            Quotations = quotations.Items;
-            TotalPages = quotations.TotalPages;
-
+            Contracts = contacts.Items;
+            TotalPages = contacts.TotalPages;
             return Page();
         }
-        public async Task<IActionResult> OnPostDeleteAsync(string id)
+
+        public async Task<IActionResult> OnPostSignContractAsync(string id)
         {
-            await quotationService.Delete(new Guid(id));
-            return Redirect("/QuotationView/Tracking?pageIndex="+PageIndex);
+            ContractDto contract = await contractService.Get(new Guid(id));
+            contract.Status = ContractStatus.Assigned;
+            await contractService.Update(mapper.Map<UpdateContractRequest>(contract));
+            return RedirectToPage("/ContractView/Index", new {isSigned = true});
         }
     }
 }

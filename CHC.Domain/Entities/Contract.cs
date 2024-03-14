@@ -35,9 +35,9 @@ namespace CHC.Domain.Entities
         public Guid StaffId { get; set; }
         public virtual Account Staff { get; set; } = null!;
 
-        [Column("interior_id")]
-        [ForeignKey("Interior")]
-        public Guid InteriorId { get; set; }
-        public virtual Interior Interior { get; set; } = null!;
-    }
+		[Column("quotation_id")]
+		[ForeignKey("Quotation")]
+		public Guid QuotationId { get; set; }
+		public virtual Quotation Quotation { get; set; } = null!;
+	}
 }
