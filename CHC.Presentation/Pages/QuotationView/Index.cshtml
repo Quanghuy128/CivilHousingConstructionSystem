@@ -56,12 +56,13 @@
                         {
                             <div class="alert alert-danger" role="alert">
                                 @Model.Message
+                                <a asp-page="/QuotationView/Tracking" asp-route-searchString="@Model.InteriorDetails[0].InteriorId">View</a>
                             </div>
                         }
                         <div class="card_area d-flex justify-content-between align-items-center">
-                                <input hidden name="InteriorId" value="@Model.InteriorDetails[0].InteriorId" />
-                                <input hidden name="price" value="@Model.TotalPrice" />
-                                <button class="btn_3" type="submit">Confirm</button>
+                            <input hidden name="InteriorId" value="@Model.InteriorDetails[0].InteriorId" />
+                            <input hidden name="price" value="@Model.TotalPrice" />
+                            <button class="btn_3" type="submit">Confirm</button>
                             <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
                         </div>
                     </form>

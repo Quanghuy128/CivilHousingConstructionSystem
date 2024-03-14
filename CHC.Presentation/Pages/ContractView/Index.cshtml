@@ -122,4 +122,16 @@
         </ul>
     </div>
 </section>
+@if (Model.IsSigned)
+{
+    <div class="position-fixed p-3" style="top: 100px; right: 0; width: 250px; background: #1AF25C">
+        <div class="d-flex">
+            <img src="~/img/image_processing20210903-4582-1piz7ii.gif" class="opacity-100 img-fluid rounded-3 me-1" style="width: 50px" />
+            <div class="d-flex flex-column">
+                <span class="text-white">Signed Successful.</span>
+                <small class="text-white">We will arrived soon..</small>
+            </div>
+        </div>
+    </div>
+}
 
