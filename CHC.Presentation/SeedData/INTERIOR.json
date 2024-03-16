@@ -3,6 +3,7 @@
     "Name": "[Ho Chi Minh] Luxury Living Room",
     "Description": "Luxury Living Room located in Ho Chi Minh City. There are many of modern furnitures from German. This is best place to live!!!",
     "Location": "Ho Chi Minh",
+    "ImageUrl": "img/interior/livingroom1.jpg",
     "InteriorDetail": {
       "TotalPrice": 100
     }
@@ -11,6 +12,7 @@
     "Name": "[Ho Chi Minh] Modern Bedroom",
     "Description": "Modern Bedroom located in Ho Chi Minh City. There are many of modern furnitures from German. This is best place to live!!!",
     "Location": "Ho Chi Minh",
+    "ImageUrl": "img/interior/bedroom.jpg",
     "InteriorDetail": {
       "TotalPrice": 0
     }
@@ -19,6 +21,43 @@
     "Name": "[Ho Chi Minh] Modern Bathroom",
     "Description": "Modern Bathroom located in Ho Chi Minh City. There are many of modern furnitures from German. This is best place to live!!!",
     "Location": "Ho Chi Minh",
+    "ImageUrl": "img/interior/bathroom.jpg",
+    "InteriorDetail": {
+      "TotalPrice": 0
+    }
+  },
+  {
+    "Name": "[Ho Chi Minh] Back Yard",
+    "Description": "Back Yard located in Ho Chi Minh City. There are many of modern from German. This is best place to live!!!",
+    "Location": "Ho Chi Minh",
+    "ImageUrl": "img/interior/backyard.jpg",
+    "InteriorDetail": {
+      "TotalPrice": 0
+    }
+  },
+  {
+    "Name": "[Ho Chi Minh] Front Yard",
+    "Description": "Front Yard located in Ho Chi Minh City. There are many of modern from German. This is best place to live!!!",
+    "Location": "Ho Chi Minh",
+    "ImageUrl": "img/interior/frontyard.jpg",
+    "InteriorDetail": {
+      "TotalPrice": 0
+    }
+  },
+  {
+    "Name": "[Ho Chi Minh] Modern Kitchen",
+    "Description": "Modern Kitchen located in Ho Chi Minh City. There are many of modern furnitures from German. This is best place to cook!!!",
+    "Location": "Ho Chi Minh",
+    "ImageUrl": "img/interior/kitchen.jpg",
+    "InteriorDetail": {
+      "TotalPrice": 0
+    }
+  },
+  {
+    "Name": "[Ho Chi Minh] House Cleaning",
+    "Description": "Make your house clean like it never been clean like this before",
+    "Location": "Ho Chi Minh",
+    "ImageUrl": "img/interior/housecleaning.jpg",
     "InteriorDetail": {
       "TotalPrice": 0
     }

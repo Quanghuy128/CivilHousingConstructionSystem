@@ -19,6 +19,8 @@ namespace CHC.Domain.Entities
 
         [Column("total_price")]
         public double TotalPrice { get; set; } = 0;
+        [Column("image_url")]
+        public string ImageUrl { get; set; } = string.Empty;
 
         [Column("staff_id")]
         [ForeignKey("Staff")]
