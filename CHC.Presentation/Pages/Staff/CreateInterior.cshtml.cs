@@ -44,6 +44,7 @@ namespace CHC.Presentation.Pages.Staff
 			}
 
             ViewData["MaterialId"] = new SelectList(await materialService.GetAll(), "Id", "Name");
+            ViewData["ImageUrl"] = new SelectList(ImageOptions, "Value", "Name");
             return Page();
         }
 
@@ -52,6 +53,37 @@ namespace CHC.Presentation.Pages.Staff
         public string InteriorId { get; set; } = default!;
         public string ErrorMessage { get; set; } = default!;
         public string SuccessMessage { get; set; } = default!;
+
+        object[] ImageOptions = new[] {
+            new {
+                Name = "Bedroom",
+                Value = "img/interior/bedroom.jpg"
+            },
+            new {
+                Name = "House Cleaning",
+                Value = "img/interior/housecleaning.jpg"
+            },
+            new {
+                Name = "Backyard",
+                Value = "img/interior/backyard.jpg"
+            },
+            new {
+                Name = "Kitchen",
+                Value = "img/interior/kitchen.jpg"
+            },
+            new {
+                Name = "Fontyard",
+                Value = "img/interior/frontyard.jpg"
+            },
+            new {
+                Name = "Bathroom",
+                Value = "img/interior/bathroom.jpg"
+            },
+            new {
+                Name = "Living room",
+                Value = "img/interior/livingroom1.jpg"
+            },
+        };
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync(string[] materialIds)
@@ -65,6 +97,8 @@ namespace CHC.Presentation.Pages.Staff
 
 			if (!ModelState.IsValid)
             {
+                ViewData["MaterialId"] = new SelectList(await materialService.GetAll(), "Id", "Name");
+                ViewData["ImageUrl"] = new SelectList(ImageOptions, "Value", "Name");
                 return Page();
             }
 
@@ -94,6 +128,9 @@ namespace CHC.Presentation.Pages.Staff
             }
             InteriorId = interior.Id.ToString();
             SuccessMessage = "Created Successfully";
+
+            ViewData["MaterialId"] = new SelectList(await materialService.GetAll(), "Id", "Name");
+            ViewData["ImageUrl"] = new SelectList(ImageOptions, "Value", "Name");
             return Page();
         }
     }

@@ -15,7 +15,7 @@
                         var month = item.CreatedAt.GetMonthKeyword();
                         <article class="blog_item">
                             <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="~/img/blog/single_blog_1.png" alt="">
+                                <img class="card-img rounded" src="~/@item.ImageUrl" alt="">
                                 <a href="#" class="blog_item_date text-center">
                                     <h3>@Html.DisplayFor(model => item.CreatedAt.Day)</h3>
                                     <p>@Html.DisplayFor(model => month)</p>
